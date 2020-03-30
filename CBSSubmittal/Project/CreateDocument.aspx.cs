@@ -24,6 +24,21 @@ namespace CBSSubmittal.Project
                 this.BindGrid();
             }
 
+            string docId = Request.QueryString["Id"];
+            if (docId != null)
+            {
+                int DID = Convert.ToInt32(docId);
+                string query = "SELECT DocumentFile FROM [dbo].[Document] WHERE Id=" + DID;
+                SqlCommand cmd = new SqlCommand(query, dbConnection);
+                string fileName = cmd.ExecuteScalar().ToString();
+
+                Response.ContentType = "Application/pdf";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=~/Uploads/Documents/" + fileName);
+                Response.TransmitFile(Server.MapPath(@"~/Uploads/Documents/" + fileName));
+                Response.End();
+                dbConnection.Close();
+            }
+
         }
 
         private void BindGrid()
@@ -90,6 +105,7 @@ namespace CBSSubmittal.Project
                 dbConnection.Close();
             }
         }
+
         protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             try

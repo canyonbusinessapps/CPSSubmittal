@@ -36,8 +36,7 @@
                                 DataTextField="ProjectName" DataValueField="Id" CssClass="form-control">
                             </asp:DropDownList>
                             <asp:SqlDataSource ID="SqlDataSourceUser" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
-                                SelectCommand="SELECT Id, ProjectName FROM [dbo].[Project] ORDER BY ProjectName ASC">
-                            </asp:SqlDataSource>
+                                SelectCommand="SELECT Id, ProjectName FROM [dbo].[Project] ORDER BY ProjectName ASC"></asp:SqlDataSource>
 
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
@@ -49,7 +48,7 @@
                                     <asp:FileUpload ID="fileDocumentFile" CssClass="custom-file-input" runat="server" />
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <asp:TextBox ID="txtDetails" CssClass="form-control" placeholder="Details" runat="server"></asp:TextBox>
@@ -75,8 +74,11 @@
                             <asp:BoundField DataField="Details" HeaderText="Details" />
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
+                                    <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="CreateDocument.aspx?Id=<%#Eval("Id") %>">
+                                        <i class="fas fa-download"></i>
+                                    </a>
                                     <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
-                                        Text="&nbsp;&nbsp;x&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure you want to delete this item?');" />
+                                        Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure you want to delete this item?');" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
