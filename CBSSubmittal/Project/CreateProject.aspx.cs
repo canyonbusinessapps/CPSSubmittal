@@ -20,36 +20,36 @@ namespace CBSSubmittal.Project
         {
             if (!this.IsPostBack)
             {
-                this.BindGrid();
+                //this.BindGrid();
             }
         }
 
-        private void BindGrid()
-        {
-            dbConnection.Open();
-            using (SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[Project]", dbConnection))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                {
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-                    grdProject.DataSource = dt;
-                    grdProject.DataBind();
+        //private void BindGrid()
+        //{
+        //    dbConnection.Open();
+        //    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[Project]", dbConnection))
+        //    {
+        //        using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+        //        {
+        //            DataTable dt = new DataTable();
+        //            sda.Fill(dt);
+        //            grdProject.DataSource = dt;
+        //            grdProject.DataBind();
 
-                    if (grdProject.Rows.Count > 0)
-                    {
-                        //Adds THEAD and TBODY Section.
-                        grdProject.HeaderRow.TableSection = TableRowSection.TableHeader;
+        //            if (grdProject.Rows.Count > 0)
+        //            {
+        //                //Adds THEAD and TBODY Section.
+        //                grdProject.HeaderRow.TableSection = TableRowSection.TableHeader;
 
-                        //Adds TH element in Header Row.  
-                        grdProject.UseAccessibleHeader = true;
+        //                //Adds TH element in Header Row.  
+        //                grdProject.UseAccessibleHeader = true;
 
-                        //Adds TFOOT section. 
-                        grdProject.FooterRow.TableSection = TableRowSection.TableFooter;
-                    }
-                }
-            }
-        }
+        //                //Adds TFOOT section. 
+        //                grdProject.FooterRow.TableSection = TableRowSection.TableFooter;
+        //            }
+        //        }
+        //    }
+        //}
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
@@ -75,26 +75,26 @@ namespace CBSSubmittal.Project
             }
         }
 
-        protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            try
-            {
-                dbConnection.Open();
-                int PID = Convert.ToInt32(grdProject.DataKeys[e.RowIndex].Value);
-                string query = "DELETE FROM [dbo].[Project] WHERE Id=" + PID;
-                SqlCommand cmd = new SqlCommand(query, dbConnection);
-                cmd.ExecuteNonQuery();
-                Response.Redirect("~/Project/CreateProject.aspx");                
-            }
-            catch (Exception ex)
-            {
-                Response.Write("error" + ex.ToString());
-            }
-            finally
-            {
-                dbConnection.Close();
+        //protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        //{
+        //    try
+        //    {
+        //        dbConnection.Open();
+        //        int PID = Convert.ToInt32(grdProject.DataKeys[e.RowIndex].Value);
+        //        string query = "DELETE FROM [dbo].[Project] WHERE Id=" + PID;
+        //        SqlCommand cmd = new SqlCommand(query, dbConnection);
+        //        cmd.ExecuteNonQuery();
+        //        Response.Redirect("~/Project/CreateProject.aspx");                
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("error" + ex.ToString());
+        //    }
+        //    finally
+        //    {
+        //        dbConnection.Close();
 
-            }
-        }
+        //    }
+        //}
     }
 }
