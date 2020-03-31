@@ -11,5 +11,23 @@ namespace CBSSubmittal {
     
     
     public partial class _Default {
+        
+        /// <summary>
+        /// grdDocuments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdDocuments;
+        
+        /// <summary>
+        /// SqlDataSourceDocuments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceDocuments;
     }
 }
