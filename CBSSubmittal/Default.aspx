@@ -54,6 +54,8 @@
                     </asp:ScriptManager>
                     <asp:UpdatePanel ID="upDocuments" UpdateMode="Conditional" ChildrenAsTriggers="false" runat="server">
                         <ContentTemplate>
+                            <%--<asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>--%>
+
                             <asp:GridView ID="grdDocuments" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceDocuments" CssClass="table table-striped table-bordered">
                                 <AlternatingRowStyle BackColor="White" />
                                 <Columns>
@@ -68,7 +70,6 @@
                                     <asp:BoundField DataField="Details" HeaderText="Details" SortExpression="Details" />
                                     <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering">
                                         <ItemTemplate>
-                                            <%--<asp:Label ID="Label1" runat="server" Text='<%# Bind("Ordering") %>'></asp:Label>--%>
                                             <asp:TextBox ID="txtOrdering" Text='<%# Bind("Ordering") %>' onkeypress="return ValDigit(this);" AutoPostBack="true" OnTextChanged="Update_Ordering" runat="server" Style="width: 80px; text-align: center;" CssClass="form-control form-control-sm"></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -94,7 +95,7 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT * FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Id] DESC, [DocumentName]">
+                    <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT * FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Ordering], [Id] DESC, [DocumentName]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>

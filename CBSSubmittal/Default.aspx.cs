@@ -17,14 +17,17 @@ namespace CBSSubmittal
         {
             Session["defaultProject"] = 11;
         }
+
         protected void Update_Ordering(object sender, EventArgs e)
         {
             try
             {
-                //int Ordering = Convert.ToInt32(txtOrdering.Text);
-                //int Id = Convert.ToInt32(txtId.Text);
-                int Ordering = Convert.ToInt32(5);
-                int Id = Convert.ToInt32(15);
+                var txtOrdering = (TextBox)sender;
+                var row = (GridViewRow)txtOrdering.NamingContainer;
+                //Determine the RowIndex of the Row whose Button was clicked.
+                int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
+                int Ordering = Convert.ToInt32(txtOrdering.Text);            
+                int Id = Convert.ToInt32(grdDocuments.DataKeys[rowIndex].Values[0]);
 
                 dbConnection.Open();
                 string query = "UPDATE [dbo].[Document] SET [Ordering]=" + Ordering + " WHERE Id=" + @Id;
