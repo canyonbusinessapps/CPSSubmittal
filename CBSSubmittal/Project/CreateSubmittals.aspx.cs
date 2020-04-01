@@ -125,11 +125,16 @@ namespace CBSSubmittal.Project
             // Create an empty page
             PdfPage page = outputDocument.AddPage();
             // Create a font
-            font = new XFont("Verdana", 15, XFontStyle.BoldItalic);
+            font = new XFont("Verdana", 15, XFontStyle.Bold);
             // Get an XGraphics object for drawing
             gfx = XGraphics.FromPdfPage(page);
 
-            int positionY = 60;
+            //// Draw the text - Table of Contentd
+            gfx.DrawString("TABLE OF CONTENTS ", font, XBrushes.Black,
+              new XRect(100, 60, page.Width, 20),
+              XStringFormats.TopLeft);
+
+            int positionY = 90;
             int indexCount = 2;
             int pageNo = 2;
 
@@ -160,7 +165,7 @@ namespace CBSSubmittal.Project
                             XFont fontNormal = new XFont("Verdana", 15, XFontStyle.Regular);
                             
                             //Set link position
-                            var xrect = new XRect(0, positionY, page.Width, 20);
+                            var xrect = new XRect(100, positionY, page.Width, 20);
                             var rect = gfx.Transformer.WorldToDefaultPage(xrect);
                             var pdfrect = new PdfRectangle(rect);
 
@@ -170,7 +175,7 @@ namespace CBSSubmittal.Project
 
                             //Goto  Page 2
                             page.AddDocumentLink(pdfrect, indexCount);
-                            gfx.DrawString(filex, fontNormal, XBrushes.Black, xrect, XStringFormats.Center);
+                            gfx.DrawString(filex, fontNormal, XBrushes.Black, xrect, XStringFormats.TopLeft);
 
                             //TheArtOfDev.HtmlRenderer.PdfSharp.HtmlContainer c = new TheArtOfDev.HtmlRenderer.PdfSharp.HtmlContainer();
                             //c.SetHtml("<html><body style='font-size:20px'>Whatever</body></html>");
