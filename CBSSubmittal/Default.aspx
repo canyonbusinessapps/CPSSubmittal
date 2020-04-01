@@ -16,9 +16,18 @@
         }
     </script>
     <% 
-        //Response.Write(Session["defaultProject"]); 
+        //Response.Write(Session["defaultProject"]);
+        string defaultProjectName = null;
         string defaultProjectId = Convert.ToInt32(Session["defaultProject"]).ToString();
-        string defaultProjectName = Common.getProjectName(defaultProjectId);
+        if (defaultProjectId != "0")
+        {
+            defaultProjectName = Common.getProjectName(defaultProjectId);
+        }
+        else
+        {
+            defaultProjectName = "Not Set";
+        }
+
     %>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -46,7 +55,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Documents for the project <% Response.Write(defaultProjectName); %></h3>
+                    <h3 class="card-title">Documents for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

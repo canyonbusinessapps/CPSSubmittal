@@ -15,7 +15,14 @@ namespace CBSSubmittal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["defaultProject"] = 11;
+            string reqProject = Request.QueryString["view"];
+            if (reqProject != null)
+            {
+                //Session["defaultProject"] = 11;
+                Session["defaultProject"] = Convert.ToInt32(reqProject).ToString();
+                string Path = ResolveUrl("Default.aspx");
+                Response.Redirect(Path);
+            }
         }
 
         protected void Update_Ordering(object sender, EventArgs e)
@@ -26,7 +33,7 @@ namespace CBSSubmittal
                 var row = (GridViewRow)txtOrdering.NamingContainer;
                 //Determine the RowIndex of the Row whose Button was clicked.
                 int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
-                int Ordering = Convert.ToInt32(txtOrdering.Text);            
+                int Ordering = Convert.ToInt32(txtOrdering.Text);
                 int Id = Convert.ToInt32(grdDocuments.DataKeys[rowIndex].Values[0]);
 
                 dbConnection.Open();
