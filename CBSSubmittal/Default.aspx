@@ -63,8 +63,6 @@
                     </asp:ScriptManager>
                     <asp:UpdatePanel ID="upDocuments" UpdateMode="Conditional" ChildrenAsTriggers="false" runat="server">
                         <ContentTemplate>
-                            <%--<asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>--%>
-
                             <asp:GridView ID="grdDocuments" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceDocuments" CssClass="table table-striped table-bordered">
                                 <AlternatingRowStyle BackColor="White" />
                                 <Columns>
