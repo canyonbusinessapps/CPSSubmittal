@@ -1,6 +1,20 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CBSSubmittal._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript">
+        function ValDigit(val) {
+            var keyCodeEntered = (event.which) ? event.which : (window.event.keyCode) ? window.event.keyCode : -1;
+            if ((keyCodeEntered >= 48) && (keyCodeEntered <= 57)) {
+                return true;
+            } else if (keyCodeEntered == 46) {
+                if ((val.value) && (val.value.indexOf('.') >= 0))
+                    return false;
+                else
+                    return true;
+            }
+            return false;
+        }
+    </script>
     <% 
         //Response.Write(Session["defaultProject"]); 
         string defaultProjectId = Convert.ToInt32(Session["defaultProject"]).ToString();
@@ -43,12 +57,19 @@
                             <asp:BoundField DataField="DocumentName" HeaderText="Document Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="Document File" SortExpression="DocumentFile" />
                             <asp:BoundField DataField="Details" HeaderText="Details" SortExpression="Details" />
+                            <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering">
+                                <ItemTemplate>
+                                    <%--<asp:Label ID="Label1" runat="server" Text='<%# Bind("Ordering") %>'></asp:Label>--%>
+                                    <asp:TextBox ID="txtOrdering" Text='<%# Bind("Ordering") %>' onkeypress="return ValDigit(this);" runat="server" Style="width: 80px; text-align:center;" CssClass="form-control form-control-sm"></asp:TextBox>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/CreateDocument.aspx?Id=<%#Eval("Id") %>">
                                         <i class="fas fa-download"></i>
                                     </a>
                                 </ItemTemplate>
+                                <HeaderStyle Width="20px"></HeaderStyle>
                             </asp:TemplateField>
                         </Columns>
                         <EditRowStyle BackColor="#2461BF" />
