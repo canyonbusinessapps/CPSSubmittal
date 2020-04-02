@@ -108,7 +108,7 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT * FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Ordering], [Id] DESC, [DocumentName]">
+                    <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT Id,ProjectId,DocumentName,substring([DocumentFile],11,250) AS DocumentFile,Details,Ordering  FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Ordering], [Id] DESC, [DocumentName]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
