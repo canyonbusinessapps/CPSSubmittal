@@ -103,7 +103,8 @@ namespace CBSSubmittal
                     sda.Fill(dt);
                     if (dt.Rows.Count > 0)
                     {
-                        outputDocument.Info.Title = dt.Rows[0]["ProjectName"].ToString(); ;
+                        projectName= dt.Rows[0]["ProjectName"].ToString();
+                        outputDocument.Info.Title = dt.Rows[0]["ProjectName"].ToString();
 
                         foreach (DataRow row in dt.Rows)
                         {
