@@ -101,12 +101,12 @@
                                 <p>Document</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+<%--                        <li class="nav-item">
                             <a href="~/Project/CreateSubmittals.aspx" class="nav-link" runat="server">
                                 <i class="nav-icon far fa-image"></i>
                                 <p>Create Submittal</p>
                             </a>
-                        </li>
+                        </li>--%>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

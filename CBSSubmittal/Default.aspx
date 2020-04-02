@@ -56,6 +56,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Documents for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
+                    <div class="card-tools">
+                        <a href="<%=ResolveUrl("~/Project/CreateSubmittals.aspx") %>" class="btn btn-primary btn-md">
+                            <i class="fas fa-plus"></i>&nbsp;CREATE SUBMITTAl
+                        </a>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
