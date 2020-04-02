@@ -31,18 +31,18 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2">
+<%--                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <asp:DropDownList ID="txtProjectId" runat="server" DataSourceID="SqlDataSourceUser" data-placeholder="Select Project"
                                 DataTextField="ProjectName" DataValueField="Id" CssClass="form-control">
                             </asp:DropDownList>
                             <asp:SqlDataSource ID="SqlDataSourceUser" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
                                 SelectCommand="SELECT Id, ProjectName FROM [dbo].[Project] ORDER BY ProjectName ASC"></asp:SqlDataSource>
 
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        </div>--%>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <asp:TextBox ID="txtDocumentName" CssClass="form-control" placeholder="Document Name" runat="server"></asp:TextBox>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="custom-file">
                                     <asp:FileUpload ID="fileDocumentFile" CssClass="custom-file-input" runat="server" />

@@ -17,6 +17,15 @@ namespace CBSSubmittal.Project
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
         //string cnnString = ConfigurationManager.ConnectionStrings["Cnn"].ConnectionString;
 
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            if (Int32.Parse(Session["defaultProject"].ToString()) == 0)
+            {
+                string Path = ResolveUrl("~/Default.aspx");
+                Response.Redirect(Path);
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -84,7 +93,8 @@ namespace CBSSubmittal.Project
                     string query = "INSERT INTO [dbo].[Document] ([ProjectId],[DocumentName],[DocumentFile],[Details]) VALUES (@ProjectId,@DocumentName,@DocumentFile,@Details)";
 
                     SqlCommand cmd = new SqlCommand(query, dbConnection);
-                    cmd.Parameters.AddWithValue("@ProjectId", Convert.ToInt32(txtProjectId.Text).ToString());
+                    //cmd.Parameters.AddWithValue("@ProjectId", Convert.ToInt32(txtProjectId.Text).ToString());
+                    cmd.Parameters.AddWithValue("@ProjectId", Convert.ToInt32(Session["defaultProject"]).ToString());
                     cmd.Parameters.AddWithValue("@DocumentName", txtDocumentName.Text);
                     cmd.Parameters.AddWithValue("@DocumentFile", fileDocumentFile.FileName.Replace(" ", "_").ToLower());
                     cmd.Parameters.AddWithValue("@Details", txtDetails.Text);

@@ -13,24 +13,6 @@ namespace CBSSubmittal.Project {
     public partial class CreateDocument {
         
         /// <summary>
-        /// txtProjectId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList txtProjectId;
-        
-        /// <summary>
-        /// SqlDataSourceUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceUser;
-        
-        /// <summary>
         /// txtDocumentName control.
         /// </summary>
         /// <remarks>
