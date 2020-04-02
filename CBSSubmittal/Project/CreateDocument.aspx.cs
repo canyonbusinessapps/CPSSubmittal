@@ -53,7 +53,7 @@ namespace CBSSubmittal.Project
         private void BindGrid()
         {
             dbConnection.Open();
-            using (SqlCommand cmd = new SqlCommand("SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details FROM [dbo].[Document] D LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id", dbConnection))
+            using (SqlCommand cmd = new SqlCommand("SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details FROM [dbo].[Document] D LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id WHERE D.ProjectId=" + Session["defaultProject"], dbConnection))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                 {
