@@ -50,4 +50,16 @@ public class Common
         con.Close();
         return Output;
     }
+
+    public static string getDocumentFileName(string Id)
+    {
+        string cnnString = ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString;
+        SqlConnection con = new SqlConnection(cnnString);
+        string query = "SELECT DocumentFile FROM Document WHERE Id = " + Id;
+        SqlCommand cmd = new SqlCommand(query, con);
+        con.Open();
+        string Output = cmd.ExecuteScalar().ToString();
+        con.Close();
+        return Output;
+    }
 }

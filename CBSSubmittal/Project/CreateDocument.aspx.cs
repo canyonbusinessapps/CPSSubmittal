@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services.Description;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace CBSSubmittal.Project
 {
@@ -120,11 +121,27 @@ namespace CBSSubmittal.Project
         {
             try
             {
+
                 dbConnection.Open();
                 int DID = Convert.ToInt32(grdDocument.DataKeys[e.RowIndex].Value);
+
+                //retive file name
+                string queryDelete = "SELECT DocumentFile FROM Document WHERE Id = " + DID;
+                SqlCommand cmdDelete = new SqlCommand(queryDelete, dbConnection);
+                string fileName = cmdDelete.ExecuteScalar().ToString();
+
+                //delete data from database                
                 string query = "DELETE FROM [dbo].[Document] WHERE Id=" + DID;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
+                string path = HttpContext.Current.Request.PhysicalApplicationPath;
                 cmd.ExecuteNonQuery();
+
+                //delete related file                
+                if (File.Exists(path + "/Uploads/Documents/" + fileName))
+                {
+                    File.Delete(path + "/Uploads/Documents/" + fileName);
+                }
+
                 Response.Redirect("~/Project/CreateDocument.aspx");
             }
             catch (Exception ex)
