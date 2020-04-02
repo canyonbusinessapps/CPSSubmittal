@@ -28,8 +28,7 @@
         {
             defaultProjectName = "Not Set";    
             theDiv.Visible = false;
-        }
-
+        }       
     %>
     <!-- Content Header (Page header) -->
     <div class="content-header">

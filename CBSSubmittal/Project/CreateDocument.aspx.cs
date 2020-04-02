@@ -80,8 +80,8 @@ namespace CBSSubmittal.Project
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             string strSaveFileAs = "";
-
-            strSaveFileAs = Server.MapPath("~/Uploads/Documents/" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
+            string rndnumber = String.Format("{0:d9}", (DateTime.Now.Ticks / 10) % 1000000000);
+            strSaveFileAs = Server.MapPath("~/Uploads/Documents/" + rndnumber + "_" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
 
             try
             {
@@ -96,7 +96,7 @@ namespace CBSSubmittal.Project
                     //cmd.Parameters.AddWithValue("@ProjectId", Convert.ToInt32(txtProjectId.Text).ToString());
                     cmd.Parameters.AddWithValue("@ProjectId", Convert.ToInt32(Session["defaultProject"]).ToString());
                     cmd.Parameters.AddWithValue("@DocumentName", txtDocumentName.Text);
-                    cmd.Parameters.AddWithValue("@DocumentFile", fileDocumentFile.FileName.Replace(" ", "_").ToLower());
+                    cmd.Parameters.AddWithValue("@DocumentFile", rndnumber + "_" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
                     cmd.Parameters.AddWithValue("@Details", txtDetails.Text);
                     cmd.ExecuteNonQuery();
                     Response.Redirect("~/Project/CreateDocument.aspx");
