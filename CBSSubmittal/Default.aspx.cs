@@ -19,8 +19,7 @@ namespace CBSSubmittal
             if (reqProject != null)
             {
                 Session["defaultProject"] = Convert.ToInt32(reqProject).ToString();
-                string Path = ResolveUrl("~/Default.aspx");
-                Response.Redirect(Path);
+                Response.Redirect("~/Default.aspx");
             }
         }
 

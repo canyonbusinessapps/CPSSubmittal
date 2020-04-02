@@ -31,16 +31,16 @@ public class Common
         con.Open();
         dataReader = cmd.ExecuteReader();
         Output += "<select id='my_selection' class='form-control form-control-sm' onchange='window.location.href = this.value;'>";
-        Output += "<option value='Default.aspx?view=0'>Select a Project</option>";
+        Output += "<option value='../Default.aspx?view=0'>Select a Project</option>";
         while (dataReader.Read())
         {
             if (priceLevel == dataReader.GetValue(0).ToString())
             {
-                Output += "<option selected value='Default.aspx?view=" + dataReader.GetValue(0) + "'>" + dataReader.GetValue(1) + "</option>";
+                Output += "<option selected value='../Default.aspx?view=" + dataReader.GetValue(0) + "'>" + dataReader.GetValue(1) + "</option>";
             }
             else
             {
-                Output += "<option value='Default.aspx?view=" + dataReader.GetValue(0) + "'>" + dataReader.GetValue(1) + "</option>";
+                Output += "<option value='../Default.aspx?view=" + dataReader.GetValue(0) + "'>" + dataReader.GetValue(1) + "</option>";
             }
 
         }
