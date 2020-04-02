@@ -108,6 +108,7 @@ namespace CBSSubmittal.Project
         }
         protected void btnCreateSubmittals_Click(object sender, EventArgs e)
         {
+            int _projectId = Convert.ToInt32(Session["defaultProject"]);
             string projectName = "Project 1";
             // Create the output document
             PdfDocument outputDocument = new PdfDocument();
@@ -137,9 +138,13 @@ namespace CBSSubmittal.Project
             int positionY = 90;
             int indexCount = 2;
             int pageNo = 2;
-
+            string strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
+            FROM [dbo].[Document] D 
+            LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
+            WHERE P.Id=" + _projectId + @"
+            ORDER BY Ordering ASC";
             dbConnection.Open();
-            using (SqlCommand cmd = new SqlCommand("SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details FROM [dbo].[Document] D LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id WHERE D.Id<>6", dbConnection))
+            using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                 {
