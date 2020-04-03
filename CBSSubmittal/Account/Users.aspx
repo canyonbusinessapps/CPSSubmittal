@@ -48,8 +48,10 @@
                                     <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-primary btn-xs"><i class="fa fa-edit" aria-hidden="true"></i></asp:LinkButton>
                                     &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" OnClientClick="return confirm('Are you sure you want to delete this item?');" CausesValidation="False" CommandName="Delete" Text="Delete" CssClass="btn btn-danger btn-xs"><i class="fa fa-trash" aria-hidden="true"></i>
                                     </asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:TemplateField>
+                                    <a id="ChangePasswordLink" class="btn btn-warning btn-xs" title="Change Password" href="ChangePassword.aspx?Id=<%#Eval("Id") %>">
+                                        <i class="fas fa-lock"></i>
+                                </ItemTemplate>                                
+                            </asp:TemplateField>  
                         </Columns>
                     </asp:GridView>
                     <asp:SqlDataSource ID="SqlDataSourceUsers" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" DeleteCommand="DELETE FROM [User] WHERE [Id] = @Id" InsertCommand="INSERT INTO [User] ([FullName], [UserName], [Password], [Email]) VALUES (@FullName, @UserName, @Password, @Email)" SelectCommand="SELECT * FROM [User]" UpdateCommand="UPDATE [User] SET [FullName] = @FullName,  [UserName] = @UserName, [Email] = @Email WHERE [Id] = @Id">
