@@ -55,6 +55,11 @@
                     <% Response.Write(ProjectList); %>
                 </li>
             </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <asp:HyperLink ID="lnkLogout" NavigateUrl="~/Logout.aspx" runat="server" CssClass="nav-link text-danger text-bold">Logout <i class="fas fa-sign-out"></i></asp:HyperLink>
+                </li>
+            </ul>
         </nav>
         <!-- /.navbar -->
 
@@ -101,12 +106,12 @@
                                 <p>Document</p>
                             </a>
                         </li>
-<%--                        <li class="nav-item">
-                            <a href="~/Project/CreateSubmittals.aspx" class="nav-link" runat="server">
-                                <i class="nav-icon far fa-image"></i>
-                                <p>Create Submittal</p>
+                        <li class="nav-item">
+                            <a href="~/Account/Users.aspx" class="nav-link" runat="server">
+                                <i class="nav-icon far fa-user"></i>
+                                <p>Users</p>
                             </a>
-                        </li>--%>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
