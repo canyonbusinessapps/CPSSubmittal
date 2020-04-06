@@ -23,7 +23,9 @@ namespace CBSSubmittal
         {
             if (AuthenticateUser(txtUserName.Text, txtPassword.Text))
             {
+                Session["FullName"] = getUserDetails(txtUserName.Text, "FullName");
                 Session["UserName"] = txtUserName.Text;
+                Session["Email"] = getUserDetails(txtUserName.Text, "Email");
                 FormsAuthentication.RedirectFromLoginPage(txtUserName.Text, chkBoxRememberMe.Checked);
             }
             else
@@ -55,6 +57,18 @@ namespace CBSSubmittal
                 int ReturnCode = (int)cmd.ExecuteScalar();
                 return ReturnCode == 1;
             }
+        }
+
+        public static string getUserDetails(string UserName, string columnName)
+        {
+            string cnnString = ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString;
+            SqlConnection con = new SqlConnection(cnnString);
+            string query = "SELECT " + columnName + " FROM [User] WHERE UserName = '" + UserName+"'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            con.Open();
+            string Output = cmd.ExecuteScalar().ToString();
+            con.Close();
+            return Output;
         }
     }
 }

@@ -33,6 +33,9 @@
     <%
         string defaultProject = Session["defaultProject"].ToString();
         string ProjectList = Common.ddlProjects(defaultProject);
+        var page = (Page)HttpContext.Current.CurrentHandler;
+        string url = page.AppRelativeVirtualPath;
+        string webPath = ConfigurationManager.AppSettings["webPath"];
     %>
     <div class="wrapper">
         <!-- Navbar -->
@@ -67,7 +70,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="~/Assets/dist/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3"
+                <img src="../Assets/dist/img/CPSLogo.jpg" alt="Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">CBS</span>
             </a>
@@ -76,11 +79,8 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="~/Assets/dist/img/avatar3.png" class="img-circle elevation-2" alt="User Image">
-                    </div>
                     <div class="info">
-                        <a href="#" class="d-block">John Deo</a>
+                        <a href="#" class="d-block"><% Response.Write(Session["FullName"].ToString()); %></a>
                     </div>
                 </div>
 
@@ -89,37 +89,37 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="~/" class="nav-link active" runat="server">
+                            <a href="<%=ResolveUrl("~/") %>" class="nav-link <% if (url == "~/Default.aspx" || url == "") Response.Write("active"); %>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>Home</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="~/Project/CreateProject.aspx" class="nav-link" runat="server">
+                            <a href="<%=ResolveUrl("~/Project/CreateProject.aspx") %>" class="nav-link <% if (url == "~/Project/CreateProject.aspx") Response.Write("active"); %>">
                                 <i class="nav-icon far fa-image"></i>
                                 <p>Project</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="~/Project/CreateDocument.aspx" class="nav-link" runat="server">
+                            <a href="<%=ResolveUrl("~/Project/CreateDocument.aspx") %>" class="nav-link <% if (url == "~/Project/CreateDocument.aspx") Response.Write("active"); %>">
                                 <i class="nav-icon far fa-image"></i>
                                 <p>Document</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="~/Project/SpecSheet.aspx" class="nav-link" runat="server">
+                            <a href="<%=ResolveUrl("~/Project/SpecSheet.aspx") %>" class="nav-link <% if (url == "~/Project/SpecSheet.aspx") Response.Write("active"); %>">
                                 <i class="nav-icon far fa-image"></i>
                                 <p>Spec Sheets</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="~/Project/OMSheet.aspx" class="nav-link" runat="server">
+                            <a href="<%=ResolveUrl("~/Project/OMSheet.aspx") %>" class="nav-link <% if (url == "~/Project/OMSheet.aspx") Response.Write("active"); %>">
                                 <i class="nav-icon far fa-image"></i>
                                 <p>O&M Sheets</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="~/Account/Users.aspx" class="nav-link" runat="server">
+                            <a href="<%=ResolveUrl("~/Account/Users.aspx") %>" class="nav-link <% if (url == "~/Account/Users.aspx" || url == "~/Account/CreateUser.aspx") Response.Write("active"); %>">
                                 <i class="nav-icon far fa-user"></i>
                                 <p>Users</p>
                             </a>
