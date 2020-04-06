@@ -21,13 +21,14 @@ namespace CBSSubmittal
     {
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
+        string webPath = ConfigurationManager.AppSettings["webPath"];
         protected void Page_Load(object sender, EventArgs e)
         {
             string reqProject = Request.QueryString["view"];
             if (reqProject != null)
             {
                 Session["defaultProject"] = Convert.ToInt32(reqProject).ToString();
-                Response.Redirect("~/Default.aspx");
+                Response.Redirect(webPath + "Default.aspx");
             }
         }
 
@@ -103,7 +104,7 @@ namespace CBSSubmittal
                     sda.Fill(dt);
                     if (dt.Rows.Count > 0)
                     {
-                        projectName= dt.Rows[0]["ProjectName"].ToString();
+                        projectName = dt.Rows[0]["ProjectName"].ToString();
                         outputDocument.Info.Title = dt.Rows[0]["ProjectName"].ToString();
 
                         foreach (DataRow row in dt.Rows)

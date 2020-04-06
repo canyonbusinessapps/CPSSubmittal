@@ -26,9 +26,9 @@
         }
         else
         {
-            defaultProjectName = "Not Set";    
+            defaultProjectName = "Not Set";
             theDiv.Visible = false;
-        }       
+        }
     %>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -58,10 +58,10 @@
                 <div class="card-header">
                     <h3 class="card-title">Documents for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
                     <div class="card-tools" runat="server" id="theDiv">
-                        <a id="newSubmittal" href="<%=ResolveUrl("~/Project/CreateSubmittals.aspx") %>" class="btn btn-primary btn-md"> 
+                        <a id="newSubmittal" href="<%=ResolveUrl("~/Project/CreateSubmittals.aspx") %>" class="btn btn-primary btn-md">
                             <asp:Button ID="btnCreateSubmittals" OnClick="btnCreateSubmittals_Click" CssClass="btn btn-md btn-primary fas fa-plus" runat="server" Text="CREATE SUBMITTALS" />
                         </a>
-                    </div>                    
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
