@@ -22,9 +22,12 @@
 </head>
 <body class="hold-transition login-page">
     <form id="loginForm" runat="server">
+        <%
+            string webPath = ConfigurationManager.AppSettings["webPath"];
+        %>
         <div class="login-box">
             <div class="login-logo">
-                <a href="../../index2.html"><b>Admin</b>CBS</a>
+                <img src="<% Response.Write(webPath); %>Assets/dist/img/canyon-logo.png" alt="Logo" class="brand-image img-responsive">
             </div>
             <!-- /.login-logo -->
             <div class="card">
