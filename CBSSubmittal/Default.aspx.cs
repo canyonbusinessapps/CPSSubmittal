@@ -81,6 +81,8 @@ namespace CBSSubmittal
             // Get an XGraphics object for drawing
             gfx = XGraphics.FromPdfPage(page);
 
+
+            // Create and Save Table of Contents...
             //// Draw the text - Table of Contentd
             gfx.DrawString("TABLE OF CONTENTS ", font, XBrushes.Black,
               new XRect(100, 60, page.Width, 20),
@@ -88,13 +90,13 @@ namespace CBSSubmittal
 
             int positionY = 90;
             int indexCount = 2;
-            int pageNo = 2;
             string strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
             FROM [dbo].[Document] D 
             LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
             WHERE P.Id=" + _projectId + @"
+            AND Ordering!=0
             ORDER BY Ordering ASC";
-
+            string filename3 = "";
             dbConnection.Open();
             using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
             {
@@ -143,6 +145,108 @@ namespace CBSSubmittal
                             indexCount += count;
                         }
 
+                        // Create and Save Table of Contents...
+                        filename3 = path + "/Uploads/Documents/" + projectName + ".pdf";
+                        outputDocument.Save(filename3);
+
+                    }
+                }
+            }
+            //Initial the doc so its starts new
+            //Add cover page
+            outputDocument = new PdfDocument();
+            strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
+            FROM [dbo].[Document] D 
+            LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
+            WHERE P.Id=" + _projectId + @" 
+            AND Ordering=0
+            ORDER BY Ordering ASC";
+
+            //dbConnection.Open();
+            using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        projectName = dt.Rows[0]["ProjectName"].ToString();
+                        outputDocument.Info.Title = dt.Rows[0]["ProjectName"].ToString();
+
+                        font = new XFont("Verdana", 10, XFontStyle.Bold);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            string filex = row["DocumentFile"].ToString();
+                            string filenamex = path + "/Uploads/Documents/" + filex;
+                            PdfDocument inputDocumentx = PdfReader.Open(filenamex, PdfDocumentOpenMode.Import);
+                            int count2 = inputDocumentx.PageCount;
+                            for (int idx = 0; idx < count2; idx++)
+                            {
+                                // Get page from 1st document
+                                PdfPage page1 = inputDocumentx.PageCount > idx ?
+                                  inputDocumentx.Pages[idx] : new PdfPage();
+
+                                // Add pages to the output document
+                                page1 = outputDocument.AddPage(page1);
+
+                                // Write document file name and page number on each page
+                                gfx = XGraphics.FromPdfPage(page1);
+                                box = page1.MediaBox.ToXRect();
+                                box.Inflate(0, -10);
+                                
+                            }
+                        }
+
+                        //// Save the document...
+                        //string filename3 = path + "/Uploads/Documents/" + projectName + ".pdf";
+                        //outputDocument.Save(filename3);
+                    }
+                }
+            }
+
+            // Add table content page
+            //string filex2 = "Index";
+            string filenamex2 = filename3;
+            PdfDocument inputDocumentx2 = PdfReader.Open(filenamex2, PdfDocumentOpenMode.Import);
+            int count22 = inputDocumentx2.PageCount;
+            for (int idx = 0; idx < count22; idx++)
+            {
+                // Get page from 1st document
+                PdfPage page1 = inputDocumentx2.PageCount > idx ?
+                  inputDocumentx2.Pages[idx] : new PdfPage();
+
+                // Add pages to the output document
+                page1 = outputDocument.AddPage(page1);
+
+                // Write document file name and page number on each page
+                gfx = XGraphics.FromPdfPage(page1);
+                box = page1.MediaBox.ToXRect();
+                box.Inflate(0, -10);
+
+            }
+
+            // Add other pages
+            int pageNo = 2;
+            strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
+            FROM [dbo].[Document] D 
+            LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
+            WHERE P.Id=" + _projectId + @"
+            AND Ordering!=0
+            ORDER BY Ordering ASC";
+
+            //dbConnection.Open();
+            using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        projectName = dt.Rows[0]["ProjectName"].ToString();
+                        outputDocument.Info.Title = dt.Rows[0]["ProjectName"].ToString();
+
                         font = new XFont("Verdana", 10, XFontStyle.Bold);
                         foreach (DataRow row in dt.Rows)
                         {
@@ -168,11 +272,15 @@ namespace CBSSubmittal
                                 pageNo += 1;
                             }
                         }
-
+                        dbConnection.Dispose();
                         // Save the document...
-                        string filename3 = path + "/Uploads/Documents/" + projectName + ".pdf";
+                        filename3 = path + "/Uploads/Documents/" + projectName + ".pdf";
                         outputDocument.Save(filename3);
-                        Process.Start(filename3);
+
+                        Response.ContentType = "Application/pdf";
+                        Response.AppendHeader("Content-Disposition", "attachment; filename=" + projectName + ".pdf");
+                        Response.TransmitFile(Server.MapPath(@"~/Uploads/Documents/" + projectName + ".pdf"));
+                        Response.End();
                     }
                 }
             }
