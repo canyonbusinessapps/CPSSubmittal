@@ -144,6 +144,8 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="Project\OMSheet.aspx" />
+    <Content Include="Project\SpecSheet.aspx" />
     <Content Include="Project\CreateSubmittals.aspx" />
     <Content Include="Project\CreateDocument.aspx" />
     <Content Include="Project\CreateProject.aspx" />
@@ -245,6 +247,20 @@
     </Compile>
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project\OMSheet.aspx.cs">
+      <DependentUpon>OMSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project\OMSheet.aspx.designer.cs">
+      <DependentUpon>OMSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project\SpecSheet.aspx.cs">
+      <DependentUpon>SpecSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project\SpecSheet.aspx.designer.cs">
+      <DependentUpon>SpecSheet.aspx</DependentUpon>
     </Compile>
     <Compile Include="Project\CreateSubmittals.aspx.cs">
       <DependentUpon>CreateSubmittals.aspx</DependentUpon>

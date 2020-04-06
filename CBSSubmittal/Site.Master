@@ -107,6 +107,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="~/Project/SpecSheet.aspx" class="nav-link" runat="server">
+                                <i class="nav-icon far fa-image"></i>
+                                <p>Spec Sheets</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="~/Project/OMSheet.aspx" class="nav-link" runat="server">
+                                <i class="nav-icon far fa-image"></i>
+                                <p>O&M Sheets</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="~/Account/Users.aspx" class="nav-link" runat="server">
                                 <i class="nav-icon far fa-user"></i>
                                 <p>Users</p>
