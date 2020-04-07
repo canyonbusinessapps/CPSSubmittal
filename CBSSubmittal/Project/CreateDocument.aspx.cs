@@ -20,11 +20,11 @@ namespace CBSSubmittal.Project
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
-            if (Int32.Parse(Session["defaultProject"].ToString()) == 0)
-            {
-                string Path = ResolveUrl("~/Default.aspx");
-                Response.Redirect(Path);
-            }
+            //if (Int32.Parse(Session["defaultProject"].ToString()) == 0)
+            //{
+            //    string Path = ResolveUrl("~/Default.aspx");
+            //    Response.Redirect(Path);
+            //}
         }
 
         protected void Page_Load(object sender, EventArgs e)
