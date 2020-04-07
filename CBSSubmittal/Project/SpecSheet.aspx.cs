@@ -71,44 +71,7 @@ namespace CBSSubmittal.Project
                     }
                 }
             }
-        }
-
-        protected void btnCreate_Click(object sender, EventArgs e)
-        {
-            string strSaveFileAs = "";
-            string rndnumber = String.Format("{0:d9}", (DateTime.Now.Ticks / 10) % 1000000000);
-            strSaveFileAs = Server.MapPath("~/Uploads/SpecSheet/" + rndnumber + "_" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
-
-            try
-            {
-                if (fileDocumentFile.HasFile)
-                {
-                    fileDocumentFile.SaveAs(strSaveFileAs);
-
-                    dbConnection.Open();
-                    string query = "INSERT INTO [dbo].[SpecSheet] ([DocumentName],[DocumentFile],[Details]) VALUES (@DocumentName,@DocumentFile,@Details)";
-
-                    SqlCommand cmd = new SqlCommand(query, dbConnection);
-                    cmd.Parameters.AddWithValue("@DocumentName", txtDocumentName.Text);
-                    cmd.Parameters.AddWithValue("@DocumentFile", rndnumber + "_" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
-                    cmd.Parameters.AddWithValue("@Details", txtDetails.Text);
-                    cmd.ExecuteNonQuery();
-                    Response.Redirect("~/Project/SpecSheet.aspx");
-                }
-                else
-                {
-                    Response.Write("No file was uploaded.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("error" + ex.ToString());
-            }
-            finally
-            {
-                dbConnection.Close();
-            }
-        }
+        }       
 
         protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
