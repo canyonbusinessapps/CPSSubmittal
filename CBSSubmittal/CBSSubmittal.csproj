@@ -142,6 +142,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="libman.json" />
     <Content Include="Project\SpecSheetHandler.ashx" />
+    <Content Include="Project\OMSheetHandler.ashx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
@@ -249,6 +250,9 @@
     </Compile>
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project\OMSheetHandler.ashx.cs">
+      <DependentUpon>OMSheetHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Project\Projects.aspx.cs">
       <DependentUpon>Projects.aspx</DependentUpon>

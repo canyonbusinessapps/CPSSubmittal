@@ -1,6 +1,38 @@
 ﻿<%@ Page Title="O&M Sheets" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="OMSheet.aspx.cs" Inherits="CBSSubmittal.Project.OMSheet" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnUploadOMSheet").click(function (event) {
+                var files = $("#<%=FileUploadOMSheet.ClientID%>").get(0).files;
+                if (files.length > 0) {
+                    var formData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        formData.append(files[i].name, files[i]);
+                    }
+                    $.ajax({
+                        url: 'OMSheetHandler.ashx',
+                        method: 'post',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function () {
+                            $('#progressBar').show();
+                            setTimeout(function () {
+                                $("#progressBar").hide('blind', {}, 500)
+                            }, 5000);
+                            setInterval(function () {
+                                location.reload(); 
+                            }, 5000);
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -31,22 +63,18 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <asp:TextBox ID="txtDocumentName" CssClass="form-control" placeholder="Sheet Name" runat="server"></asp:TextBox>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <div class="custom-file">
-                                    <asp:FileUpload ID="fileDocumentFile" CssClass="custom-file-input" runat="server" />
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="display:none;">
-                            <asp:TextBox ID="txtDetails" CssClass="form-control" placeholder="Details" runat="server"></asp:TextBox>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <asp:FileUpload ID="FileUploadOMSheet" runat="server" AllowMultiple="true" />
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
-                            <asp:Button ID="btnSaveDoocument" OnClick="btnCreate_Click" CssClass="btn btn-md btn-primary" runat="server" Text="Create" />
+                            <input type="button" id="btnUploadOMSheet" value="Upload O&M Sheets" class="btn btn-md btn-primary" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div id="progressBar" class="progress" style="margin-top: 20px; display: none;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,7 +83,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Spec Sheets</h3>
+                    <h3 class="card-title">O&M Sheets</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

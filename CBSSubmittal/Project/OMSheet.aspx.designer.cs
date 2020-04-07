@@ -13,40 +13,13 @@ namespace CBSSubmittal.Project {
     public partial class OMSheet {
         
         /// <summary>
-        /// txtDocumentName control.
+        /// FileUploadOMSheet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDocumentName;
-        
-        /// <summary>
-        /// fileDocumentFile control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileDocumentFile;
-        
-        /// <summary>
-        /// txtDetails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDetails;
-        
-        /// <summary>
-        /// btnSaveDoocument control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveDoocument;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadOMSheet;
         
         /// <summary>
         /// grdDocument control.
