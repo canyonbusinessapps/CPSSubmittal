@@ -63,4 +63,30 @@ public class Common
         con.Close();
         return Output;
     }
+
+    public static string getAllProjectsName(string docType, string Id)
+    {
+        string cnnString = ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString;
+        SqlConnection con = new SqlConnection(cnnString);
+        string query = "SELECT [ProjectId] FROM DocumentRelation WHERE [DocumentType]='" + docType + "' AND [DocumentId] = " + Id;
+        SqlCommand cmd = new SqlCommand(query, con);
+        con.Open();
+        SqlDataReader reader = cmd.ExecuteReader();
+        string proName = null;
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                var tempName = reader.GetInt32(0);
+                proName += Common.getProjectName(Convert.ToInt32(tempName).ToString()) + ", ";
+            }
+        }
+        else
+        {
+            proName += "Not Linked";
+        }
+        reader.Close();
+
+        return proName;
+    }
 }

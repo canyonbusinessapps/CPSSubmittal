@@ -114,6 +114,11 @@
                             </asp:TemplateField>
                             <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
+                            <asp:TemplateField HeaderText="Linked Projects">
+                                <ItemTemplate>
+                                    <asp:Label ID="Projects" runat="server" Text='<%# Common.getAllProjectsName("OMSheet", Convert.ToInt32(Eval("Id")).ToString()) %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="OMSheet.aspx?Id=<%#Eval("Id") %>">
