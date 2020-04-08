@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="O&M Sheets" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="OMSheet.aspx.cs" Inherits="CBSSubmittal.Project.OMSheet" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-        <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#btnUploadOMSheet").click(function (event) {
                 var files = $("#<%=FileUploadOMSheet.ClientID%>").get(0).files;
@@ -22,7 +22,7 @@
                                 $("#progressBar").hide('blind', {}, 500)
                             }, 5000);
                             setInterval(function () {
-                                location.reload(); 
+                                location.reload();
                             }, 5000);
                         },
                         error: function (err) {
@@ -32,6 +32,13 @@
                 }
             });
         });
+        function Selectallcheckbox(val) {
+            if (!$(this).is(':checked')) {
+                $('input:checkbox').prop('checked', val.checked);
+            } else {
+                $("#chkroot").removeAttr('checked');
+            }
+        }
     </script>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -93,6 +100,9 @@
                     <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered" DataSourceID="SqlDataSourceOMSheet">
                         <Columns>
                             <asp:TemplateField HeaderText="&nbsp;">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="CheckBox2" runat="server" onclick="javascript:Selectallcheckbox(this);" />
+                                </HeaderTemplate>
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>

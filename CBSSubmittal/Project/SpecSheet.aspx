@@ -32,6 +32,13 @@
                 }
             });
         });
+        function Selectallcheckbox(val) {
+            if (!$(this).is(':checked')) {
+                $('input:checkbox').prop('checked', val.checked);
+            } else {
+                $("#chkroot").removeAttr('checked');
+            }
+        }
     </script>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -93,6 +100,9 @@
                     <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered" DataSourceID="SqlDataSourceSpecSheet">
                         <Columns>
                             <asp:TemplateField HeaderText="&nbsp;">
+                                <HeaderTemplate>
+                                    <asp:CheckBox ID="CheckBox2" runat="server" onclick="javascript:Selectallcheckbox(this);" />
+                                </HeaderTemplate>
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>
