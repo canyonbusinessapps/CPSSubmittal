@@ -61,8 +61,8 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="info">
-                        <a href="#" class="d-block"><% Response.Write(Session["FullName"].ToString()); %></a>
+                    <div class="info" style="color: #ffffff;">
+                        <i class="nav-icon far fa-user"></i>&nbsp;&nbsp;<% Response.Write(Session["FullName"].ToString()); %>
                     </div>
                 </div>
 

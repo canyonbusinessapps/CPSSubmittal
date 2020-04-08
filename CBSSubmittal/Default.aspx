@@ -59,7 +59,7 @@
                     <h3 class="card-title">Documents for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
                     <div class="card-tools" runat="server" id="theDiv">
                         <a id="newSubmittal" href="<%=ResolveUrl("~/Project/CreateSubmittals.aspx") %>" class="btn btn-primary btn-md">
-                            <asp:Button ID="btnCreateSubmittals" OnClick="btnCreateSubmittals_Click" CssClass="btn btn-xs btn-primary fas fa-plus" runat="server" Text="CREATE SUBMITTALS" />
+                            <asp:Button ID="btnCreateSubmittals" OnClick="btnCreateSubmittals_Click" CssClass="btn btn-xs btn-primary" runat="server" Text="CREATE SUBMITTALS" />
                         </a>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                                     <asp:BoundField DataField="DocumentName" HeaderText="Document Name" SortExpression="DocumentName" />
                                     <asp:BoundField DataField="DocumentFile" HeaderText="Document File" SortExpression="DocumentFile" />
                                     <asp:BoundField DataField="Details" HeaderText="Details" SortExpression="Details" />
-                                    <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering">
+                                    <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering" HeaderStyle-Width="100">
                                         <ItemTemplate>
                                             <asp:TextBox ID="txtOrdering" Text='<%# Bind("Ordering") %>' onkeypress="return ValDigit(this);" AutoPostBack="true" OnTextChanged="Update_Ordering" runat="server" Style="width: 80px; text-align: center;" CssClass="form-control form-control-sm"></asp:TextBox>
                                         </ItemTemplate>
@@ -123,23 +123,32 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <asp:GridView ID="GridViewSpecSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceSpecSheet" CssClass="table table-striped table-bordered">
-                        <AlternatingRowStyle BackColor="White" />
-                        <Columns>
-                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
-                            <asp:BoundField DataField="DocumentName" HeaderText="Spec Sheet" SortExpression="DocumentName" />
-                            <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
-                            <asp:TemplateField HeaderStyle-Width="20">
-                                <ItemTemplate>
-                                    <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/SpecSheet.aspx?Id=<%#Eval("Id") %>">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                </ItemTemplate>
-                                <HeaderStyle Width="20px"></HeaderStyle>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId)">
+                    <asp:UpdatePanel ID="UpdatePanelSpecSheet" UpdateMode="Conditional" ChildrenAsTriggers="false" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="GridViewSpecSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceSpecSheet" CssClass="table table-striped table-bordered">
+                                <AlternatingRowStyle BackColor="White" />
+                                <Columns>
+                                    <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
+                                    <asp:BoundField DataField="DocumentName" HeaderText="Spec Sheet" SortExpression="DocumentName" />
+                                    <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
+                                    <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering" HeaderStyle-Width="100">
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="txtOrdering" Text='<%# Bind("Ordering") %>' onkeypress="return ValDigit(this);" AutoPostBack="true" OnTextChanged="Update_Ordering_SpecSheet" runat="server" Style="width: 80px; text-align: center;" CssClass="form-control form-control-sm"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderStyle-Width="20">
+                                        <ItemTemplate>
+                                            <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/SpecSheet.aspx?Id=<%#Eval("Id") %>">
+                                                <i class="fas fa-download"></i>
+                                            </a>
+                                        </ItemTemplate>
+                                        <HeaderStyle Width="20px"></HeaderStyle>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, [Ordering] FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY [Ordering]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
@@ -154,23 +163,32 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <asp:GridView ID="GridViewOMSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceOMSheet" CssClass="table table-striped table-bordered">
-                        <AlternatingRowStyle BackColor="White" />
-                        <Columns>
-                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
-                            <asp:BoundField DataField="DocumentName" HeaderText="O&M Sheet" SortExpression="DocumentName" />
-                            <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
-                            <asp:TemplateField HeaderStyle-Width="20">
-                                <ItemTemplate>
-                                    <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/OMSheet.aspx?Id=<%#Eval("Id") %>">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                </ItemTemplate>
-                                <HeaderStyle Width="20px"></HeaderStyle>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId)">
+                    <asp:UpdatePanel ID="UpdatePanelOMSheet" UpdateMode="Conditional" ChildrenAsTriggers="false" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="GridViewOMSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceOMSheet" CssClass="table table-striped table-bordered">
+                                <AlternatingRowStyle BackColor="White" />
+                                <Columns>
+                                    <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
+                                    <asp:BoundField DataField="DocumentName" HeaderText="O&M Sheet" SortExpression="DocumentName" />
+                                    <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
+                                    <asp:TemplateField HeaderText="Ordering" SortExpression="Ordering" HeaderStyle-Width="100">
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="txtOrdering" Text='<%# Bind("Ordering") %>' onkeypress="return ValDigit(this);" AutoPostBack="true" OnTextChanged="Update_Ordering_OMSheet" runat="server" Style="width: 80px; text-align: center;" CssClass="form-control form-control-sm"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderStyle-Width="20">
+                                        <ItemTemplate>
+                                            <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/OMSheet.aspx?Id=<%#Eval("Id") %>">
+                                                <i class="fas fa-download"></i>
+                                            </a>
+                                        </ItemTemplate>
+                                        <HeaderStyle Width="20px"></HeaderStyle>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, [Ordering] FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY [Ordering]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>

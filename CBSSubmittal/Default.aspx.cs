@@ -57,6 +57,59 @@ namespace CBSSubmittal
                 dbConnection.Close();
             }
         }
+
+        protected void Update_Ordering_SpecSheet(object sender, EventArgs e)
+        {
+            try
+            {
+                var txtOrdering = (TextBox)sender;
+                var row = (GridViewRow)txtOrdering.NamingContainer;
+                //Determine the RowIndex of the Row whose Button was clicked.
+                int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
+                int Ordering = Convert.ToInt32(txtOrdering.Text);
+                int Id = Convert.ToInt32(GridViewSpecSheet.DataKeys[rowIndex].Values[0]);
+
+                dbConnection.Open();
+                string query = "UPDATE [dbo].[SpecSheet] SET [Ordering]=" + Ordering + " WHERE Id=" + @Id;
+                SqlCommand cmd = new SqlCommand(query, dbConnection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("error" + ex.ToString());
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
+        protected void Update_Ordering_OMSheet(object sender, EventArgs e)
+        {
+            try
+            {
+                var txtOrdering = (TextBox)sender;
+                var row = (GridViewRow)txtOrdering.NamingContainer;
+                //Determine the RowIndex of the Row whose Button was clicked.
+                int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
+                int Ordering = Convert.ToInt32(txtOrdering.Text);
+                int Id = Convert.ToInt32(GridViewOMSheet.DataKeys[rowIndex].Values[0]);
+
+                dbConnection.Open();
+                string query = "UPDATE [dbo].[OMSheet] SET [Ordering]=" + Ordering + " WHERE Id=" + @Id;
+                SqlCommand cmd = new SqlCommand(query, dbConnection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("error" + ex.ToString());
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
         protected void btnCreateSubmittals_Click(object sender, EventArgs e)
         {
             int _projectId = Convert.ToInt32(Session["defaultProject"]);

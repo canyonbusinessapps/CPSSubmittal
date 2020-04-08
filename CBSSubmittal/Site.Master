@@ -83,8 +83,8 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="info">
-                        <a href="#" class="d-block"><% Response.Write(Session["FullName"].ToString()); %></a>
+                    <div class="info" style="color: #ffffff;">
+                        <i class="nav-icon far fa-user"></i>&nbsp;&nbsp;<% Response.Write(Session["FullName"].ToString()); %>
                     </div>
                 </div>
 
@@ -100,25 +100,25 @@
                         </li>
                         <li class="nav-item">
                             <a href="<%=ResolveUrl("~/Project/CreateProject.aspx") %>" class="nav-link <% if (url == "~/Project/CreateProject.aspx") Response.Write("active"); %>">
-                                <i class="nav-icon far fa-image"></i>
+                                <i class="nav-icon far fa-folder"></i>
                                 <p>Project</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<%=ResolveUrl("~/Project/CreateDocument.aspx") %>" class="nav-link <% if (url == "~/Project/CreateDocument.aspx") Response.Write("active"); %>">
-                                <i class="nav-icon far fa-image"></i>
+                                <i class="nav-icon far fa-folder-open"></i>
                                 <p>Document</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<%=ResolveUrl("~/Project/SpecSheet.aspx") %>" class="nav-link <% if (url == "~/Project/SpecSheet.aspx") Response.Write("active"); %>">
-                                <i class="nav-icon far fa-image"></i>
+                                <i class="nav-icon far fa-folder-open"></i>
                                 <p>Spec Sheets</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<%=ResolveUrl("~/Project/OMSheet.aspx") %>" class="nav-link <% if (url == "~/Project/OMSheet.aspx") Response.Write("active"); %>">
-                                <i class="nav-icon far fa-image"></i>
+                                <i class="nav-icon far fa-folder-open"></i>
                                 <p>O&M Sheets</p>
                             </a>
                         </li>
@@ -157,7 +157,7 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->    
+    <!-- ./wrapper -->
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
