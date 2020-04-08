@@ -59,7 +59,7 @@
                     <h3 class="card-title">Documents for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
                     <div class="card-tools" runat="server" id="theDiv">
                         <a id="newSubmittal" href="<%=ResolveUrl("~/Project/CreateSubmittals.aspx") %>" class="btn btn-primary btn-md">
-                            <asp:Button ID="btnCreateSubmittals" OnClick="btnCreateSubmittals_Click" CssClass="btn btn-md btn-primary fas fa-plus" runat="server" Text="CREATE SUBMITTALS" />
+                            <asp:Button ID="btnCreateSubmittals" OnClick="btnCreateSubmittals_Click" CssClass="btn btn-xs btn-primary fas fa-plus" runat="server" Text="CREATE SUBMITTALS" />
                         </a>
                     </div>
                 </div>
@@ -109,6 +109,68 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                     <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT Id,ProjectId,DocumentName,substring([DocumentFile],11,250) AS DocumentFile,Details,Ordering  FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Ordering], [Id] DESC, [DocumentName]">
+                        <SelectParameters>
+                            <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Spec Sheets for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <asp:GridView ID="GridViewSpecSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceSpecSheet" CssClass="table table-striped table-bordered">
+                        <AlternatingRowStyle BackColor="White" />
+                        <Columns>
+                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
+                            <asp:BoundField DataField="DocumentName" HeaderText="Spec Sheet" SortExpression="DocumentName" />
+                            <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
+                            <asp:TemplateField HeaderStyle-Width="20">
+                                <ItemTemplate>
+                                    <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/SpecSheet.aspx?Id=<%#Eval("Id") %>">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </ItemTemplate>
+                                <HeaderStyle Width="20px"></HeaderStyle>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId)">
+                        <SelectParameters>
+                            <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">O&M Sheets for the project <span class="text-info text-bold"><% Response.Write(defaultProjectName); %></span></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <asp:GridView ID="GridViewOMSheet" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSourceOMSheet" CssClass="table table-striped table-bordered">
+                        <AlternatingRowStyle BackColor="White" />
+                        <Columns>
+                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" Visible="false" />
+                            <asp:BoundField DataField="DocumentName" HeaderText="O&M Sheet" SortExpression="DocumentName" />
+                            <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
+                            <asp:TemplateField HeaderStyle-Width="20">
+                                <ItemTemplate>
+                                    <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/OMSheet.aspx?Id=<%#Eval("Id") %>">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </ItemTemplate>
+                                <HeaderStyle Width="20px"></HeaderStyle>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId)">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>

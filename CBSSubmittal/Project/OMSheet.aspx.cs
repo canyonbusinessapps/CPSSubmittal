@@ -26,7 +26,6 @@ namespace CBSSubmittal.Project
         {
             if (!this.IsPostBack)
             {
-                this.BindGrid();
             }
 
             string docId = Request.QueryString["Id"];
@@ -46,31 +45,34 @@ namespace CBSSubmittal.Project
 
         }
 
-        private void BindGrid()
+        protected void Button1_Click(object sender, EventArgs e)
         {
             dbConnection.Open();
-            using (SqlCommand cmd = new SqlCommand("SELECT D.Id, D.DocumentName, substring(D.DocumentFile,11,250) AS DocumentFile, D.Details FROM [dbo].[OMSheet] D", dbConnection))
+            foreach (GridViewRow gvrow in grdDocument.Rows)
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                var checkbox = gvrow.FindControl("CheckBoxId") as CheckBox;
+                if (checkbox.Checked)
                 {
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-                    grdDocument.DataSource = dt;
-                    grdDocument.DataBind();
+                    var defaultProject = Convert.ToInt32(Session["defaultProject"]).ToString();
+                    var docId = gvrow.FindControl("DocumentId") as Label;
 
-                    if (grdDocument.Rows.Count > 0)
+                    //check already attched with project or not
+                    string delQuery = "SELECT COUNT(*) FROM [dbo].[DocumentRelation] WHERE DocumentType='OMSheet' AND ProjectId=" + defaultProject + " AND DocumentId=" + Convert.ToInt32(docId.Text);
+                    SqlCommand delcmd = new SqlCommand(delQuery, dbConnection);
+                    int rowCount = Convert.ToInt32(delcmd.ExecuteScalar());
+                    if (rowCount <= 0)
                     {
-                        //Adds THEAD and TBODY Section.
-                        grdDocument.HeaderRow.TableSection = TableRowSection.TableHeader;
-
-                        //Adds TH element in Header Row.  
-                        grdDocument.UseAccessibleHeader = true;
-
-                        //Adds TFOOT section. 
-                        grdDocument.FooterRow.TableSection = TableRowSection.TableFooter;
+                        SqlCommand cmd = new SqlCommand("INSERT INTO [DocumentRelation] ([DocumentType],[ProjectId],[DocumentId]) VALUES (@DocumentType,@ProjectId,@DocumentId)", dbConnection);
+                        cmd.Parameters.AddWithValue("DocumentType", "OMSheet");
+                        cmd.Parameters.AddWithValue("ProjectId", defaultProject);
+                        cmd.Parameters.AddWithValue("DocumentId", docId.Text);
+                        int i = cmd.ExecuteNonQuery();
                     }
                 }
+
             }
+            dbConnection.Close();
+            Response.Redirect("~/Project/OMSheet.aspx");
         }
 
         protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)

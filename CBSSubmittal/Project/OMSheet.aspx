@@ -87,11 +87,23 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <asp:GridView ID="grdDocument" AutoGenerateColumns="false" runat="server" CssClass="table table-striped table-bordered" OnRowDeleting="GridView_RowDeleting" DataKeyNames="Id">
+                    <div style="margin-bottom: 10px;">
+                        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Attach with this project " CssClass="btn btn-md btn-primary" />
+                    </div>
+                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered" DataSourceID="SqlDataSourceOMSheet">
                         <Columns>
-                            <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" />
+                            <asp:TemplateField HeaderText="&nbsp;">
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="CheckBoxId" runat="server" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="ID" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
-                            <%--<asp:BoundField DataField="Details" HeaderText="Details" />--%>
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="OMSheet.aspx?Id=<%#Eval("Id") %>">
@@ -100,9 +112,11 @@
                                     <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
                                         Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure you want to delete this item?');" />
                                 </ItemTemplate>
+                                <HeaderStyle Width="20px"></HeaderStyle>
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
+                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT [Id], [DocumentName], substring([DocumentFile],11,250) AS DocumentFile FROM [OMSheet]" DeleteCommand="DELETE FROM [OMSheet] WHERE [Id] = @Id"></asp:SqlDataSource>
                 </div>
                 <!-- /.card-body -->
             </div>

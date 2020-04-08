@@ -22,6 +22,15 @@ namespace CBSSubmittal.Project {
         protected global::System.Web.UI.WebControls.FileUpload FileUploadOMSheet;
         
         /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
+        
+        /// <summary>
         /// grdDocument control.
         /// </summary>
         /// <remarks>
@@ -29,5 +38,14 @@ namespace CBSSubmittal.Project {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdDocument;
+        
+        /// <summary>
+        /// SqlDataSourceOMSheet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceOMSheet;
     }
 }
