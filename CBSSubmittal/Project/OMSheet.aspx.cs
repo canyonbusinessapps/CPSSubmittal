@@ -27,10 +27,11 @@ namespace CBSSubmittal.Project
             if (!this.IsPostBack)
             {
             }
-
+            
             string docId = Request.QueryString["Id"];
             if (docId != null)
             {
+                dbConnection.Open();
                 int DID = Convert.ToInt32(docId);
                 string query = "SELECT DocumentFile FROM [dbo].[OMSheet] WHERE Id=" + DID;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
