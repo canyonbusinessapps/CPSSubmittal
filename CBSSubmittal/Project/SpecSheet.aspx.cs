@@ -31,6 +31,7 @@ namespace CBSSubmittal.Project
             string docId = Request.QueryString["Id"];
             if (docId != null)
             {
+                dbConnection.Open();
                 int DID = Convert.ToInt32(docId);
                 string query = "SELECT DocumentFile FROM [dbo].[SpecSheet] WHERE Id=" + DID;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
