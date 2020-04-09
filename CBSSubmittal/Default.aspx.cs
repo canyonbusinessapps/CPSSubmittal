@@ -147,12 +147,26 @@ namespace CBSSubmittal
 
             int positionY = 90;
             int indexCount = 2;
-            string strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
+            string strSQL = @"
+SELECT * FROM (
+SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details, 'OwnDoc' as [Type], D.Ordering
             FROM [dbo].[Document] D 
             LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
             WHERE P.Id=" + _projectId + @"
             AND Ordering!=0
-            ORDER BY Ordering ASC";
+UNION ALL
+select S.Id, P.ProjectName, S.DocumentName, s.DocumentFile, S.Details, DR.DocumentType [Type], DR.Ordering
+from DocumentRelation DR INNER JOIN [dbo].[Project] P ON DR.ProjectId=P.Id 
+INNER JOIN OMSheet S ON S.Id=DR.DocumentId
+where DR.ProjectId=" + _projectId + @" AND DR.DocumentType='OMSheet'
+
+UNION ALL
+select S.Id, P.ProjectName, S.DocumentName, s.DocumentFile, S.Details, DR.DocumentType [Type], DR.Ordering
+from DocumentRelation DR INNER JOIN [dbo].[Project] P ON DR.ProjectId=P.Id 
+INNER JOIN SpecSheet S ON S.Id=DR.DocumentId
+where DR.ProjectId=" + _projectId + @" AND DR.DocumentType='SpecSheet') A
+            ORDER BY Ordering ASC
+";
             string filename3 = "";
             dbConnection.Open();
             using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
@@ -169,8 +183,19 @@ namespace CBSSubmittal
                         foreach (DataRow row in dt.Rows)
                         {
                             string filex = row["DocumentName"].ToString() + "        " + indexCount;
-
-                            string filenamex = path + "/Uploads/Documents/" + row["DocumentFile"].ToString();
+                            string filenamex = "";
+                            if (row["Type"].ToString() == "OwnDoc")
+                            {
+                                filenamex = path + "/Uploads/Documents/" + row["DocumentFile"].ToString();
+                            }
+                            if (row["Type"].ToString() == "OMSheet")
+                            {
+                                filenamex = path + "/Uploads/OMSheet/" + row["DocumentFile"].ToString();
+                            }
+                            if (row["Type"].ToString() == "SpecSheet")
+                            {
+                                filenamex = path + "/Uploads/SpecSheet/" + row["DocumentFile"].ToString();
+                            }
                             PdfDocument inputDocumentx = PdfReader.Open(filenamex, PdfDocumentOpenMode.Import);
                             int count = inputDocumentx.PageCount;
 
@@ -285,13 +310,27 @@ namespace CBSSubmittal
 
             // Add other pages
             int pageNo = 2;
-            strSQL = @"SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details 
-            FROM [dbo].[Document] D 
-            LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
-            WHERE P.Id=" + _projectId + @"
-            AND Ordering!=0
-            ORDER BY Ordering ASC";
+            
+            strSQL = @"
+            SELECT * FROM (
+            SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details, 'OwnDoc' as [Type], D.Ordering
+                        FROM [dbo].[Document] D 
+                        LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id 
+                        WHERE P.Id=" + _projectId + @"
+                        AND Ordering!=0
+            UNION ALL
+            select S.Id, P.ProjectName, S.DocumentName, s.DocumentFile, S.Details, DR.DocumentType [Type], DR.Ordering
+            from DocumentRelation DR INNER JOIN [dbo].[Project] P ON DR.ProjectId=P.Id 
+            INNER JOIN OMSheet S ON S.Id=DR.DocumentId
+            where DR.ProjectId=" + _projectId + @" AND DR.DocumentType='OMSheet'
 
+            UNION ALL
+            select S.Id, P.ProjectName, S.DocumentName, s.DocumentFile, S.Details, DR.DocumentType [Type], DR.Ordering
+            from DocumentRelation DR INNER JOIN [dbo].[Project] P ON DR.ProjectId=P.Id 
+            INNER JOIN SpecSheet S ON S.Id=DR.DocumentId
+            where DR.ProjectId=" + _projectId + @" AND DR.DocumentType='SpecSheet') A
+                        ORDER BY Ordering ASC
+            ";
             //dbConnection.Open();
             using (SqlCommand cmd = new SqlCommand(strSQL, dbConnection))
             {
@@ -308,7 +347,20 @@ namespace CBSSubmittal
                         foreach (DataRow row in dt.Rows)
                         {
                             string filex = row["DocumentFile"].ToString();
-                            string filenamex = path + "/Uploads/Documents/" + filex;
+                            string filenamex = "";
+                            //filenamex = path + "/Uploads/Documents/" + filex;
+                            if (row["Type"].ToString() == "OwnDoc")
+                            {
+                                filenamex = path + "/Uploads/Documents/" + row["DocumentFile"].ToString();
+                            }
+                            if (row["Type"].ToString() == "OMSheet")
+                            {
+                                filenamex = path + "/Uploads/OMSheet/" + row["DocumentFile"].ToString();
+                            }
+                            if (row["Type"].ToString() == "SpecSheet")
+                            {
+                                filenamex = path + "/Uploads/SpecSheet/" + row["DocumentFile"].ToString();
+                            }
                             PdfDocument inputDocumentx = PdfReader.Open(filenamex, PdfDocumentOpenMode.Import);
                             int count2 = inputDocumentx.PageCount;
                             for (int idx = 0; idx < count2; idx++)
