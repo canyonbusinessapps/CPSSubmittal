@@ -148,7 +148,7 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, [Ordering] FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY [Ordering]">
+                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
@@ -188,7 +188,7 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, [Ordering] FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY [Ordering]">
+                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>

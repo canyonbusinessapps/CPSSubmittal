@@ -67,10 +67,12 @@ namespace CBSSubmittal
                 //Determine the RowIndex of the Row whose Button was clicked.
                 int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
                 int Ordering = Convert.ToInt32(txtOrdering.Text);
-                int Id = Convert.ToInt32(GridViewSpecSheet.DataKeys[rowIndex].Values[0]);
+                int DocumentId = Convert.ToInt32(GridViewSpecSheet.DataKeys[rowIndex].Values[0]);
+                string DocumentType = "SpecSheet";
+                string ProjectId = Convert.ToInt32(Session["defaultProject"]).ToString();
 
                 dbConnection.Open();
-                string query = "UPDATE [dbo].[SpecSheet] SET [Ordering]=" + Ordering + " WHERE Id=" + @Id;
+                string query = "UPDATE [dbo].[DocumentRelation] SET [Ordering]=" + Ordering + " WHERE DocumentType='" + DocumentType + "' AND ProjectId=" + @ProjectId + " AND DocumentId=" + @DocumentId;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 cmd.ExecuteNonQuery();
             }
@@ -93,10 +95,12 @@ namespace CBSSubmittal
                 //Determine the RowIndex of the Row whose Button was clicked.
                 int rowIndex = ((sender as TextBox).NamingContainer as GridViewRow).RowIndex;
                 int Ordering = Convert.ToInt32(txtOrdering.Text);
-                int Id = Convert.ToInt32(GridViewOMSheet.DataKeys[rowIndex].Values[0]);
+                int DocumentId = Convert.ToInt32(GridViewOMSheet.DataKeys[rowIndex].Values[0]);
+                string DocumentType = "OMSheet";
+                string ProjectId = Convert.ToInt32(Session["defaultProject"]).ToString();
 
                 dbConnection.Open();
-                string query = "UPDATE [dbo].[OMSheet] SET [Ordering]=" + Ordering + " WHERE Id=" + @Id;
+                string query = "UPDATE [dbo].[DocumentRelation] SET [Ordering]=" + Ordering + " WHERE DocumentType='" + DocumentType + "' AND ProjectId=" + @ProjectId + " AND DocumentId=" + @DocumentId;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 cmd.ExecuteNonQuery();
             }
@@ -247,7 +251,7 @@ namespace CBSSubmittal
                                 gfx = XGraphics.FromPdfPage(page1);
                                 box = page1.MediaBox.ToXRect();
                                 box.Inflate(0, -10);
-                                
+
                             }
                         }
 
