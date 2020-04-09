@@ -136,7 +136,7 @@
                         SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile,
                                         (SELECT STUFF(
                                         (
-	                                        SELECT  ', ' + [ProjectName] FROM -- create comma separated values
+	                                        SELECT  ', ' + [ProjectName] FROM
 	                                        (
 	                                          SELECT PRO.[ProjectName] AS [ProjectName] from [DocumentRelation] DRR LEFT JOIN [Project] PRO ON PRO.[Id] = DRR.[ProjectId] 
 	                                          WHERE DRR.[DocumentType]='OMSheet' AND DRR.[DocumentId]=SS.[Id]

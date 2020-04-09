@@ -115,7 +115,7 @@
                             <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
                             <asp:BoundField DataField="ProjectName" HeaderText="Linked Projects" />
-<%--                            <asp:TemplateField HeaderText="Linked Projects">
+                            <%--                            <asp:TemplateField HeaderText="Linked Projects">
                                 <ItemTemplate>
                                     <asp:Label ID="Projects" runat="server" Text='<%# Common.getAllProjectsName("SpecSheet", Convert.ToInt32(Eval("Id")).ToString()) %>'></asp:Label>
                                 </ItemTemplate>
@@ -132,18 +132,19 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" 
+                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
                         SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile,
                                         (SELECT STUFF(
                                         (
-	                                        SELECT  ', ' + [ProjectName] FROM -- create comma separated values
+	                                        SELECT  ', ' + [ProjectName] FROM
 	                                        (
 	                                          SELECT PRO.[ProjectName] AS [ProjectName] from [DocumentRelation] DRR LEFT JOIN [Project] PRO ON PRO.[Id] = DRR.[ProjectId] 
 	                                          WHERE DRR.[DocumentType]='SpecSheet' AND DRR.[DocumentId]=SS.[Id]
 	                                        ) AS T FOR XML PATH('')
                                         )
-                                        ,1,1,'')) AS [ProjectName] FROM [SpecSheet] SS" 
-                        DeleteCommand="DELETE FROM [SpecSheet] WHERE [Id] = @Id"></asp:SqlDataSource>
+                                        ,1,1,'')) AS [ProjectName] FROM [SpecSheet] SS"
+                        DeleteCommand="DELETE FROM [SpecSheet] WHERE [Id] = @Id">                        
+                    </asp:SqlDataSource>
                 </div>
                 <!-- /.card-body -->
             </div>

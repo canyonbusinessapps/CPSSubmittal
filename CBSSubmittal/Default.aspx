@@ -110,7 +110,7 @@
                     </asp:UpdatePanel>
                     <asp:SqlDataSource ID="SqlDataSourceDocuments" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT Id,ProjectId,DocumentName,substring([DocumentFile],11,250) AS DocumentFile,Details,Ordering  FROM [Document] WHERE ([ProjectId] = @ProjectId) ORDER BY [Ordering], [Id] DESC, [DocumentName]">
                         <SelectParameters>
-                            <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                            <asp:SessionParameter Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
@@ -141,6 +141,8 @@
                                             <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/SpecSheet.aspx?Id=<%#Eval("Id") %>">
                                                 <i class="fas fa-download"></i>
                                             </a>
+                                            <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
+                                        Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure want to delete relationship from this project?');" />
                                         </ItemTemplate>
                                         <HeaderStyle Width="20px"></HeaderStyle>
                                     </asp:TemplateField>
@@ -148,10 +150,15 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]">
+                    <asp:SqlDataSource ID="SqlDataSourceSpecSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
+                        SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [SpecSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'SpecSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]"
+                        DeleteCommand="DELETE FROM [DocumentRelation] WHERE ([DocumentType] = 'SpecSheet' AND [ProjectId] = @ProjectId AND [DocumentId] = @Id)">
                         <SelectParameters>
-                            <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                            <asp:SessionParameter Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
+                        <DeleteParameters>
+                            <asp:SessionParameter Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                        </DeleteParameters>
                     </asp:SqlDataSource>
                 </div>
                 <!-- /.card-body -->
@@ -181,6 +188,8 @@
                                             <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="Project/OMSheet.aspx?Id=<%#Eval("Id") %>">
                                                 <i class="fas fa-download"></i>
                                             </a>
+                                            <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
+                                        Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure want to delete relationship from this project?');" />
                                         </ItemTemplate>
                                         <HeaderStyle Width="20px"></HeaderStyle>
                                     </asp:TemplateField>
@@ -188,10 +197,15 @@
                             </asp:GridView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]">
+                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
+                        SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile, DR.[Ordering] FROM [OMSheet] SS LEFT JOIN [DocumentRelation] DR ON DR.[DocumentId]=SS.[Id] WHERE (DR.[DocumentType] = 'OMSheet' AND DR.[ProjectId]=@ProjectId) ORDER BY DR.[Ordering]"
+                        DeleteCommand="DELETE FROM [DocumentRelation] WHERE ([DocumentType] = 'OMSheet' AND [ProjectId] = @ProjectId AND [DocumentId] = @Id)">
                         <SelectParameters>
-                            <asp:SessionParameter DefaultValue="1" Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                            <asp:SessionParameter Name="ProjectId" SessionField="defaultProject" Type="Int32" />
                         </SelectParameters>
+                        <DeleteParameters>
+                            <asp:SessionParameter Name="ProjectId" SessionField="defaultProject" Type="Int32" />
+                        </DeleteParameters>
                     </asp:SqlDataSource>
                 </div>
                 <!-- /.card-body -->
