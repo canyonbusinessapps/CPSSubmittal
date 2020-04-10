@@ -94,11 +94,24 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div style="margin-bottom: 10px;">
-                        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Attach with this project " CssClass="btn btn-md btn-primary" />
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-4">
+                            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Attach with this project " CssClass="btn btn-md btn-primary" />
+                        </div>
+                        <div class="col-6">
+                            <asp:TextBox ID="txtSearch" runat="server" placeholder="Search Text" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-2">
+                            <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
+                        </div>
                     </div>
-                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered" DataSourceID="SqlDataSourceSpecSheet">
+                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" OnRowDeleting="grdDocument_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
                         <Columns>
+                            <asp:TemplateField HeaderText="ID" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="&nbsp;">
                                 <HeaderTemplate>
                                     <asp:CheckBox ID="CheckBox2" runat="server" onclick="javascript:Selectallcheckbox(this);" />
@@ -106,12 +119,7 @@
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="ID" Visible="false">
-                                <ItemTemplate>
-                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>                            
                             <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
                             <asp:BoundField DataField="ProjectName" HeaderText="Linked Projects" />

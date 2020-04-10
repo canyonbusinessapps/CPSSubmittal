@@ -20,13 +20,16 @@ namespace CBSSubmittal.Project
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
-
+            if (!this.IsPostBack)
+            {
+            }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
             {
+                this.BindGrid();
             }
 
             string docId = Request.QueryString["Id"];
@@ -79,24 +82,26 @@ namespace CBSSubmittal.Project
             Response.Redirect("~/Project/SpecSheet.aspx");
         }
 
-        protected void GridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        protected void grdDocument_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             try
             {
 
                 dbConnection.Open();
-                int DID = Convert.ToInt32(grdDocument.DataKeys[e.RowIndex].Value);
-
+                Label dId = grdDocument.Rows[e.RowIndex].FindControl("DocumentId") as Label;
                 //retive file name
-                string queryDelete = "SELECT DocumentFile FROM SpecSheet WHERE Id = " + DID;
+                string queryDelete = "SELECT DocumentFile FROM SpecSheet WHERE Id = @docIdDel";
                 SqlCommand cmdDelete = new SqlCommand(queryDelete, dbConnection);
+                cmdDelete.Parameters.AddWithValue("@docIdDel", dId.Text);
                 string fileName = cmdDelete.ExecuteScalar().ToString();
 
                 //delete data from database                
-                string query = "DELETE FROM [dbo].[SpecSheet] WHERE Id=" + DID;
+                string query = "DELETE FROM [dbo].[SpecSheet] WHERE Id = @docId";
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 string path = HttpContext.Current.Request.PhysicalApplicationPath;
+                cmd.Parameters.AddWithValue("@docId", dId.Text);
                 cmd.ExecuteNonQuery();
+                BindGrid();
 
                 userActivityLog.UserActivityLogs("Spec Sheets", "Delete Sheet " + fileName);
 
@@ -117,6 +122,35 @@ namespace CBSSubmittal.Project
                 dbConnection.Close();
 
             }
+        }
+
+        private void BindGrid()
+        {
+            using (SqlCommand cmd = new SqlCommand("SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile,(SELECT STUFF((SELECT  ', ' + [ProjectName] FROM (SELECT PRO.[ProjectName] AS [ProjectName] from [DocumentRelation] DRR LEFT JOIN [Project] PRO ON PRO.[Id] = DRR.[ProjectId]  WHERE DRR.[DocumentType]='SpecSheet' AND DRR.[DocumentId]=SS.[Id]) AS T FOR XML PATH('')),1,1,'')) AS [ProjectName] FROM [SpecSheet] SS", dbConnection))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    grdDocument.DataSource = dt;
+                    grdDocument.DataBind();
+                }
+            }
+        }
+
+        protected void srcButton_Click(object sender, EventArgs e)
+        {
+            dbConnection.Open();
+            SqlCommand sqlComm = new SqlCommand();
+            string sqlQuery = "SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile,(SELECT STUFF((SELECT  ', ' + [ProjectName] FROM (SELECT PRO.[ProjectName] AS [ProjectName] from [DocumentRelation] DRR LEFT JOIN [Project] PRO ON PRO.[Id] = DRR.[ProjectId]  WHERE DRR.[DocumentType]='SpecSheet' AND DRR.[DocumentId]=SS.[Id]) AS T FOR XML PATH('')),1,1,'')) AS [ProjectName] FROM [SpecSheet] SS WHERE SS.[DocumentName] LIKE '%'+@DocumentName+'%'";
+            sqlComm.CommandText = sqlQuery;
+            sqlComm.Connection = dbConnection;
+            sqlComm.Parameters.AddWithValue("DocumentName", txtSearch.Text);
+            DataTable dt = new DataTable();
+            SqlDataAdapter sda = new SqlDataAdapter(sqlComm);
+            sda.Fill(dt);
+            grdDocument.DataSource = dt;
+            grdDocument.DataBind();
         }
     }
 }

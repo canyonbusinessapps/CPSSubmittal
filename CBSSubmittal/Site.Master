@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="~/Assets/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="~/Assets/plugins/summernote/summernote-bs4.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- jQuery -->
@@ -178,6 +180,9 @@
     <script src="<%=ResolveUrl("~/Assets/plugins/daterangepicker/daterangepicker.js") %>"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="<%=ResolveUrl("~/Assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js") %>"></script>
+    <!-- DataTables -->
+    <script src="<%=ResolveUrl("~/Assets/plugins/datatables/jquery.dataTables.js") %>"></script>
+    <script src="<%=ResolveUrl("~/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js") %>"></script>
     <!-- Summernote -->
     <script src="<%=ResolveUrl("~/Assets/plugins/summernote/summernote-bs4.min.js") %>"></script>
     <!-- overlayScrollbars -->
