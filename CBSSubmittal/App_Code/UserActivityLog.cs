@@ -14,7 +14,7 @@ namespace CBSSubmittal
 
         public void UserActivityLogs(string _PageName, string _Action)
         {
-            string strSQL = @"INSERT INTO [UserActivityLog](name, pageName, Activity, UserIP) values('" + HttpContext.Current.User.Identity.Name.ToString() + @"', '" + _PageName + @"', '" + _Action + @"', '" + GetIPAddress() + @"');";
+            string strSQL = @"INSERT INTO [UserActivityLog](name, pageName, Activity, UserIP) values('" + HttpContext.Current.Session["UserName"].ToString() + @"', '" + _PageName + @"', '" + _Action + @"', '" + GetIPAddress() + @"');";
             dbConnection.Open();
             SqlDataAdapter adpt = new SqlDataAdapter(strSQL, dbConnection);
             object objResult = null;
