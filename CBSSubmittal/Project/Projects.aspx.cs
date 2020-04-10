@@ -17,11 +17,15 @@ namespace CBSSubmittal.Project
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
         string webPath = ConfigurationManager.AppSettings["webPath"];
+        UserActivityLog userActivityLog = new UserActivityLog();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string reqProject = Request.QueryString["view"];
             if (reqProject != null)
             {
+                userActivityLog.UserActivityLogs("Projects", "Select default project");
+
                 Session["defaultProject"] = Convert.ToInt32(reqProject).ToString();
                 Response.Redirect(webPath + "Default.aspx");
             }

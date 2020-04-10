@@ -15,6 +15,7 @@ namespace CBSSubmittal.Project
     {
 
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
+        UserActivityLog userActivityLog = new UserActivityLog();
 
         public void ProcessRequest(HttpContext context)
         {
@@ -43,6 +44,8 @@ namespace CBSSubmittal.Project
                     cmd.Parameters.AddWithValue("@DocumentFile", rndnumber + "_" + Path.GetFileName(PostedFile.FileName).Replace(" ", "_").ToLower());
                     cmd.Parameters.AddWithValue("@Details", strFileNameFinal.ToString());
                     cmd.ExecuteNonQuery();
+
+                    //userActivityLog.UserActivityLogs("Spec Sheets", "Upload Sheet " + strFileNameFinal.ToString());
                 }
             }
             dbConnection.Close();

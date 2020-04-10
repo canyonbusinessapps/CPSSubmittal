@@ -16,15 +16,10 @@ namespace CBSSubmittal.Project
     public partial class CreateDocument : System.Web.UI.Page
     {
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
-        //string cnnString = ConfigurationManager.ConnectionStrings["Cnn"].ConnectionString;
+        UserActivityLog userActivityLog = new UserActivityLog();
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
-            //if (Int32.Parse(Session["defaultProject"].ToString()) == 0)
-            //{
-            //    string Path = ResolveUrl("~/Default.aspx");
-            //    Response.Redirect(Path);
-            //}
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -41,6 +36,8 @@ namespace CBSSubmittal.Project
                 string query = "SELECT DocumentFile FROM [dbo].[Document] WHERE Id=" + DID;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 string fileName = cmd.ExecuteScalar().ToString();
+
+                userActivityLog.UserActivityLogs("Documents", "Download Document ID: " + DID);
 
                 Response.ContentType = "Application/pdf";
                 Response.AppendHeader("Content-Disposition", "attachment; filename=~/Uploads/Documents/" + fileName);
@@ -100,6 +97,9 @@ namespace CBSSubmittal.Project
                     cmd.Parameters.AddWithValue("@DocumentFile", rndnumber + "_" + fileDocumentFile.FileName.Replace(" ", "_").ToLower());
                     cmd.Parameters.AddWithValue("@Details", txtDetails.Text);
                     cmd.ExecuteNonQuery();
+
+                    userActivityLog.UserActivityLogs("Documents", "Upload Document " + txtDocumentName.Text);
+
                     Response.Redirect("~/Project/CreateDocument.aspx");
                 }
                 else
@@ -141,6 +141,8 @@ namespace CBSSubmittal.Project
                 {
                     File.Delete(path + "/Uploads/Documents/" + fileName);
                 }
+
+                userActivityLog.UserActivityLogs("Documents", "Delete Document " + fileName);
 
                 Response.Redirect("~/Project/CreateDocument.aspx");
             }

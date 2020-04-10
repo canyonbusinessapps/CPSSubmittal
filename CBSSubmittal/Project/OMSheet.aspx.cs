@@ -16,6 +16,7 @@ namespace CBSSubmittal.Project
     public partial class OMSheet : System.Web.UI.Page
     {
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
+        UserActivityLog userActivityLog = new UserActivityLog();
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
@@ -27,7 +28,7 @@ namespace CBSSubmittal.Project
             if (!this.IsPostBack)
             {
             }
-            
+
             string docId = Request.QueryString["Id"];
             if (docId != null)
             {
@@ -36,6 +37,8 @@ namespace CBSSubmittal.Project
                 string query = "SELECT DocumentFile FROM [dbo].[OMSheet] WHERE Id=" + DID;
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 string fileName = cmd.ExecuteScalar().ToString();
+
+                userActivityLog.UserActivityLogs("O&M Sheets", "Download Sheet ID: " + DID);
 
                 Response.ContentType = "Application/pdf";
                 Response.AppendHeader("Content-Disposition", "attachment; filename=~/Uploads/OMSheet/" + fileName);
@@ -94,6 +97,8 @@ namespace CBSSubmittal.Project
                 SqlCommand cmd = new SqlCommand(query, dbConnection);
                 string path = HttpContext.Current.Request.PhysicalApplicationPath;
                 cmd.ExecuteNonQuery();
+
+                userActivityLog.UserActivityLogs("O&M Sheets", "Delete Sheet " + fileName);
 
                 //delete related file                
                 if (File.Exists(path + "/Uploads/OMSheet/" + fileName))
