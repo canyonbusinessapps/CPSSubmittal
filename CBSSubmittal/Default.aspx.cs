@@ -22,8 +22,10 @@ namespace CBSSubmittal
         SqlConnection dbConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
         string webPath = ConfigurationManager.AppSettings["webPath"];
+        UserActivityLog userActivityLog = new UserActivityLog();
+
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {                        
             string reqProject = Request.QueryString["view"];
             if (reqProject != null)
             {
@@ -34,6 +36,9 @@ namespace CBSSubmittal
 
         protected void Update_Ordering(object sender, EventArgs e)
         {
+            //Page name, Action
+            userActivityLog.UserActivityLogs("Dashboard", "Update Document Ordering");
+
             try
             {
                 var txtOrdering = (TextBox)sender;
@@ -60,6 +65,9 @@ namespace CBSSubmittal
 
         protected void Update_Ordering_SpecSheet(object sender, EventArgs e)
         {
+            //Page name, Action
+            userActivityLog.UserActivityLogs("Dashboard", "Update Spec Sheets Ordering");
+
             try
             {
                 var txtOrdering = (TextBox)sender;
@@ -88,6 +96,9 @@ namespace CBSSubmittal
 
         protected void Update_Ordering_OMSheet(object sender, EventArgs e)
         {
+            //Page name, Action
+            userActivityLog.UserActivityLogs("Dashboard", "Update O&M Sheets Ordering");
+
             try
             {
                 var txtOrdering = (TextBox)sender;
@@ -116,6 +127,9 @@ namespace CBSSubmittal
 
         protected void btnCreateSubmittals_Click(object sender, EventArgs e)
         {
+            //Page name, Action
+            userActivityLog.UserActivityLogs("Dashboard", "Create Document Submittals");
+
             int _projectId = Convert.ToInt32(Session["defaultProject"]);
             string projectName = "Project 1";
             // Create the output document
