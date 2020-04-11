@@ -75,6 +75,21 @@ namespace CBSSubmittal.Project
             }
         }
 
+        protected void srcButton_Click(object sender, EventArgs e)
+        {
+            dbConnection.Open();
+            SqlCommand sqlComm = new SqlCommand();
+            string sqlQuery = "SELECT D.Id, P.ProjectName, D.DocumentName, D.DocumentFile, D.Details FROM [dbo].[Document] D LEFT JOIN [dbo].[Project] P ON D.ProjectId=P.Id WHERE D.ProjectId=" + Session["defaultProject"]+ " AND (D.DocumentName LIKE '%'+@DocumentName+'%' OR D.DocumentFile LIKE '%'+@DocumentName+'%' OR D.Details LIKE '%'+@DocumentName+'%')";
+            sqlComm.CommandText = sqlQuery;
+            sqlComm.Connection = dbConnection;
+            sqlComm.Parameters.AddWithValue("DocumentName", txtSearch.Text);
+            DataTable dt = new DataTable();
+            SqlDataAdapter sda = new SqlDataAdapter(sqlComm);
+            sda.Fill(dt);
+            grdDocument.DataSource = dt;
+            grdDocument.DataBind();
+        }
+
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             string strSaveFileAs = "";

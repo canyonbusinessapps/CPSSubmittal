@@ -67,6 +67,14 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                     <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-6">
+                            <asp:TextBox ID="txtSearch" runat="server" placeholder="Search Text" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-2">
+                            <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
+                        </div>
+                    </div>
                     <asp:GridView ID="grdDocument" AutoGenerateColumns="false" runat="server" CssClass="table table-striped table-bordered" OnRowDeleting="GridView_RowDeleting" DataKeyNames="Id">
                         <Columns>
                             <asp:BoundField DataField="ProjectName" HeaderText="Project Name" />
