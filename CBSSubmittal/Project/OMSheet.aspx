@@ -94,11 +94,24 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div style="margin-bottom: 10px;">
-                        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Attach with this project " CssClass="btn btn-md btn-primary" />
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-4">
+                            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Attach with this project " CssClass="btn btn-md btn-primary" />
+                        </div>
+                        <div class="col-6">
+                            <asp:TextBox ID="txtSearch" runat="server" placeholder="Search Text" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-2">
+                            <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
+                        </div>
                     </div>
-                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered" DataSourceID="SqlDataSourceOMSheet">
+                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" OnRowDeleting="GridView_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
                         <Columns>
+                            <asp:TemplateField HeaderText="ID" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="&nbsp;">
                                 <HeaderTemplate>
                                     <asp:CheckBox ID="CheckBox2" runat="server" onclick="javascript:Selectallcheckbox(this);" />
@@ -106,20 +119,10 @@
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="ID" Visible="false">
-                                <ItemTemplate>
-                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>                            
                             <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
                             <asp:BoundField DataField="ProjectName" HeaderText="Linked Projects" />
-<%--                            <asp:TemplateField HeaderText="Linked Projects">
-                                <ItemTemplate>
-                                    <asp:Label ID="Projects" runat="server" Text='<%# Common.getAllProjectsName("OMSheet", Convert.ToInt32(Eval("Id")).ToString()) %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="OMSheet.aspx?Id=<%#Eval("Id") %>">
@@ -132,18 +135,6 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-                    <asp:SqlDataSource ID="SqlDataSourceOMSheet" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>" 
-                        SelectCommand="SELECT SS.[Id], SS.[DocumentName], substring(SS.[DocumentFile],11,250) AS DocumentFile,
-                                        (SELECT STUFF(
-                                        (
-	                                        SELECT  ', ' + [ProjectName] FROM
-	                                        (
-	                                          SELECT PRO.[ProjectName] AS [ProjectName] from [DocumentRelation] DRR LEFT JOIN [Project] PRO ON PRO.[Id] = DRR.[ProjectId] 
-	                                          WHERE DRR.[DocumentType]='OMSheet' AND DRR.[DocumentId]=SS.[Id]
-	                                        ) AS T FOR XML PATH('')
-                                        )
-                                        ,1,1,'')) AS [ProjectName] FROM [OMSheet] SS" 
-                        DeleteCommand="DELETE FROM [OMSheet] WHERE [Id] = @Id"></asp:SqlDataSource>
                 </div>
                 <!-- /.card-body -->
             </div>
