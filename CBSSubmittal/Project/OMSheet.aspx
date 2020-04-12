@@ -105,7 +105,7 @@
                             <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
                         </div>
                     </div>
-                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" AllowSorting="True" OnRowDeleting="GridView_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
+                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" PageSize="20" OnPageIndexChanging="grdDocument_PageIndexChanging" AllowSorting="True" OnRowDeleting="GridView_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
                         <Columns>
                             <asp:TemplateField HeaderText="ID" Visible="false">
                                 <ItemTemplate>

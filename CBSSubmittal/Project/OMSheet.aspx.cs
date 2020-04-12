@@ -135,6 +135,12 @@ namespace CBSSubmittal.Project
             }
         }
 
+        protected void grdDocument_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grdDocument.PageIndex = e.NewPageIndex;
+            this.BindGrid();
+        }
+
         protected void srcButton_Click(object sender, EventArgs e)
         {
             dbConnection.Open();
