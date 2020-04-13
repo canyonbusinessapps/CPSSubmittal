@@ -120,7 +120,7 @@
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>
                             </asp:TemplateField>                            
-                            <asp:BoundField DataField="DocumentName" HeaderText="Sheet Name" SortExpression="DocumentName" />
+                            <asp:BoundField DataField="DocumentName" HeaderText="Title" SortExpression="DocumentName" />
                             <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
                             <asp:BoundField DataField="ProjectName" HeaderText="Linked Projects" />
                             <asp:TemplateField HeaderStyle-Width="20">
