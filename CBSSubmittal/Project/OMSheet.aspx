@@ -105,7 +105,7 @@
                             <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
                         </div>
                     </div>
-                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" PageSize="20" OnPageIndexChanging="grdDocument_PageIndexChanging" AllowSorting="True" OnRowDeleting="GridView_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
+                    <asp:GridView ID="grdDocument" runat="server" AllowPaging="True" PageSize="20" OnPageIndexChanging="grdDocument_PageIndexChanging" AllowSorting="True" OnRowEditing="grdDocument_RowEditing" OnRowCancelingEdit="grdDocument_RowCancelingEdit" OnRowUpdating="grdDocument_RowUpdating" OnRowDeleting="GridView_RowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered">
                         <Columns>
                             <asp:TemplateField HeaderText="ID" Visible="false">
                                 <ItemTemplate>
@@ -119,19 +119,41 @@
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBoxId" runat="server" />
                                 </ItemTemplate>
-                            </asp:TemplateField>                            
-                            <asp:BoundField DataField="DocumentName" HeaderText="Title" SortExpression="DocumentName" />
-                            <asp:BoundField DataField="DocumentFile" HeaderText="File" SortExpression="DocumentFile" />
-                            <asp:BoundField DataField="ProjectName" HeaderText="Linked Projects" />
-                            <asp:TemplateField HeaderStyle-Width="20">
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Title" SortExpression="DocumentName">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtDocumentName" runat="server" Text='<%# Bind("DocumentName") %>'></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="reqDocumentNameEdit" runat="server" ValidationGroup="UPDATE"
+                                        ErrorMessage="Document Name Name is required." ControlToValidate="txtDocumentName" Text="*" ForeColor="Red"></asp:RequiredFieldValidator>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDocumentName" runat="server" Text='<%# Bind("DocumentName") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="File" SortExpression="DocumentFile">
+                                <ItemTemplate>
+                                    <asp:Label ID="txtDocumentFile" runat="server" Text='<%# Bind("DocumentFile") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Linked Projects">
+                                <ItemTemplate>
+                                    <asp:Label ID="txtProjectName" runat="server" Text='<%# Bind("ProjectName") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderStyle-Width="100">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="OMSheet.aspx?Id=<%#Eval("Id") %>">
                                         <i class="fas fa-download"></i>
                                     </a>
                                     <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
                                         Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure you want to delete this item?');" />
+                                    <asp:Button ID="Button2" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-info btn-xs" />
                                 </ItemTemplate>
-                                <HeaderStyle Width="20px"></HeaderStyle>
+                                <EditItemTemplate>
+                                    <asp:Button ID="Button3" runat="server" CausesValidation="True" CommandName="Update" Text="Update" CssClass="btn btn-info btn-xs" />
+                                    <asp:Button ID="Button4" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="btn btn-warning btn-xs" />
+                                </EditItemTemplate>
+                                <HeaderStyle Width="100px"></HeaderStyle>
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
