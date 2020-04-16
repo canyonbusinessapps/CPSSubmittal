@@ -59,18 +59,6 @@ namespace CBSSubmittal.Project
                     sda.Fill(dt);
                     grdDocument.DataSource = dt;
                     grdDocument.DataBind();
-
-                    if (grdDocument.Rows.Count > 0)
-                    {
-                        //Adds THEAD and TBODY Section.
-                        grdDocument.HeaderRow.TableSection = TableRowSection.TableHeader;
-
-                        //Adds TH element in Header Row.  
-                        grdDocument.UseAccessibleHeader = true;
-
-                        //Adds TFOOT section. 
-                        grdDocument.FooterRow.TableSection = TableRowSection.TableFooter;
-                    }
                 }
             }
         }
@@ -171,5 +159,43 @@ namespace CBSSubmittal.Project
 
             }
         }
+
+        protected void grdDocument_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grdDocument.PageIndex = e.NewPageIndex;
+            this.BindGrid();
+        }
+
+        protected void grdDocument_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            grdDocument.EditIndex = e.NewEditIndex;
+            this.BindGrid();
+        }
+
+        protected void grdDocument_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            grdDocument.EditIndex = -1;
+            this.BindGrid();
+
+        }
+
+        protected void grdDocument_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            //Find Id of edit row
+            string id = grdDocument.DataKeys[e.RowIndex].Value.ToString();
+            //Find updated values for update
+            TextBox documentName = (TextBox)grdDocument.Rows[e.RowIndex].FindControl("txtDocumentName");
+            TextBox details = (TextBox)grdDocument.Rows[e.RowIndex].FindControl("txtDetails");
+            //Update query
+            SqlCommand cmd = new SqlCommand("UPDATE [Document] SET [DocumentName]='" + documentName.Text + "', [Details]='" + details.Text + "' WHERE ID = " + id, dbConnection);
+
+            dbConnection.Open();
+            cmd.ExecuteNonQuery();
+            dbConnection.Close();
+            //Back to the grid
+            grdDocument.EditIndex = -1;
+            this.BindGrid();
+        }
+
     }
 }

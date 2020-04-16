@@ -31,14 +31,6 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-<%--                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <asp:DropDownList ID="txtProjectId" runat="server" DataSourceID="SqlDataSourceUser" data-placeholder="Select Project"
-                                DataTextField="ProjectName" DataValueField="Id" CssClass="form-control">
-                            </asp:DropDownList>
-                            <asp:SqlDataSource ID="SqlDataSourceUser" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
-                                SelectCommand="SELECT Id, ProjectName FROM [dbo].[Project] ORDER BY ProjectName ASC"></asp:SqlDataSource>
-
-                        </div>--%>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <asp:TextBox ID="txtDocumentName" CssClass="form-control" placeholder="Document Name" runat="server"></asp:TextBox>
                         </div>
@@ -75,11 +67,36 @@
                             <asp:Button ID="srcButton" runat="server" Text="Search" OnClick="srcButton_Click" CssClass="btn btn-md btn-primary" />
                         </div>
                     </div>
-                    <asp:GridView ID="grdDocument" AutoGenerateColumns="false" runat="server" CssClass="table table-striped table-bordered" OnRowDeleting="GridView_RowDeleting" DataKeyNames="Id">
+                    <asp:GridView ID="grdDocument" AutoGenerateColumns="false" runat="server" AllowPaging="True" PageSize="20" OnPageIndexChanging="grdDocument_PageIndexChanging" AllowSorting="True" OnRowEditing="grdDocument_RowEditing" OnRowCancelingEdit="grdDocument_RowCancelingEdit" OnRowUpdating="grdDocument_RowUpdating" OnRowDeleting="GridView_RowDeleting" DataKeyNames="Id" CssClass="table table-striped table-bordered">
                         <Columns>
-                            <asp:BoundField DataField="ProjectName" HeaderText="Project Name" />
-                            <asp:BoundField DataField="DocumentName" HeaderText="Document Name" />
-                            <asp:BoundField DataField="Details" HeaderText="Details" />
+                            <asp:TemplateField HeaderText="ID" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="DocumentId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Project" SortExpression="ProjectName">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblProjectName" runat="server" Text='<%# Bind("ProjectName") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Title" SortExpression="DocumentName">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtDocumentName" runat="server" Text='<%# Bind("DocumentName") %>' CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="reqDocumentNameEdit" runat="server" ValidationGroup="UPDATE"
+                                        ErrorMessage="Document Name Name is required." ControlToValidate="txtDocumentName" Text="*" ForeColor="Red"></asp:RequiredFieldValidator>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDocumentName" runat="server" Text='<%# Bind("DocumentName") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Details" SortExpression="Details">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtDetails" runat="server" Text='<%# Bind("Details") %>' CssClass="form-control"></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDetails" runat="server" Text='<%# Bind("Details") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderStyle-Width="20">
                                 <ItemTemplate>
                                     <a id="downloadLink" class="btn btn-info btn-xs" title="Downlaod" href="CreateDocument.aspx?Id=<%#Eval("Id") %>">
@@ -87,7 +104,12 @@
                                     </a>
                                     <asp:Button ID="deletebtn" runat="server" CommandName="Delete" CssClass="btn btn-danger btn-xs"
                                         Text="&nbsp;&nbsp;X&nbsp;&nbsp;" OnClientClick="return confirm('Are you sure you want to delete this item?');" />
+                                    <asp:Button ID="Button2" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-info btn-xs" />
                                 </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:Button ID="Button3" runat="server" CausesValidation="True" CommandName="Update" Text="Update" CssClass="btn btn-info btn-xs" />
+                                    <asp:Button ID="Button4" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="btn btn-warning btn-xs" />
+                                </EditItemTemplate>
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>

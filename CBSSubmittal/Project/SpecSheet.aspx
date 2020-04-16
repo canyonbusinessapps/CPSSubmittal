@@ -122,7 +122,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Title" SortExpression="DocumentName">
                                 <EditItemTemplate>
-                                    <asp:TextBox ID="txtDocumentName" runat="server" Text='<%# Bind("DocumentName") %>'></asp:TextBox>
+                                    <asp:TextBox ID="txtDocumentName" runat="server" Text='<%# Bind("DocumentName") %>' CssClass="form-control"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="reqDocumentNameEdit" runat="server" ValidationGroup="UPDATE"
                                         ErrorMessage="Document Name Name is required." ControlToValidate="txtDocumentName" Text="*" ForeColor="Red"></asp:RequiredFieldValidator>
                                 </EditItemTemplate>
