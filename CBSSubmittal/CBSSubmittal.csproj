@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="Account\ChangePasswordUser.aspx" />
     <Content Include="Account\ChangePassword.aspx" />
     <Content Include="Account\CreateUser.aspx" />
     <Content Include="Account\Users.aspx" />
@@ -190,6 +191,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Common.cs" />
+    <Compile Include="Account\ChangePasswordUser.aspx.cs">
+      <DependentUpon>ChangePasswordUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePasswordUser.aspx.designer.cs">
+      <DependentUpon>ChangePasswordUser.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
