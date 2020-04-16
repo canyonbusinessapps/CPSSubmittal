@@ -26,6 +26,7 @@ namespace CBSSubmittal
                 Session["FullName"] = getUserDetails(txtUserName.Text, "FullName");
                 Session["UserName"] = txtUserName.Text;
                 Session["Email"] = getUserDetails(txtUserName.Text, "Email");
+                Session["RoleId"] = getUserDetails(txtUserName.Text, "RoleId");
                 FormsAuthentication.RedirectFromLoginPage(txtUserName.Text, chkBoxRememberMe.Checked);
             }
             else

@@ -78,6 +78,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="RoleId" class="col-sm-2 col-form-label">Role</label>
+                            <div class="col-sm-10">
+                                <asp:DropDownList ID="ddRoleId" runat="server" DataSourceID="SqlDataSourceddRole" data-placeholder="Select Role"
+                                    DataTextField="RoleName" DataValueField="Id" CssClass="form-control">
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlDataSourceddRole" runat="server" ConnectionString="<%$ ConnectionStrings:dbContext %>"
+                                    SelectCommand="SELECT Id, RoleName FROM [dbo].[Role] ORDER BY RoleName ASC"></asp:SqlDataSource>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidatorRole" runat="server" ErrorMessage="Role required" Text="*" ControlToValidate="ddRoleId" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">&nbsp;</label>
                             <div class="col-sm-10">
                                 <asp:ValidationSummary ID="ValidationSummary1" ForeColor="Red" runat="server" />

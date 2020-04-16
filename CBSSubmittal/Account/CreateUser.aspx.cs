@@ -13,6 +13,14 @@ namespace CBSSubmittal.Account
 {
     public partial class CreateUser : System.Web.UI.Page
     {
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            if (Int32.Parse(Session["RoleId"].ToString()) != 1)
+            {
+                Response.Redirect("~/Default.aspx");
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -34,6 +42,7 @@ namespace CBSSubmittal.Account
 
                     SqlParameter fullname = new SqlParameter("@FullName", txtFullName.Text);
                     SqlParameter username = new SqlParameter("@UserName", txtUserName.Text);
+                    SqlParameter roleId = new SqlParameter("@RoleId", ddRoleId.Text);
                     // FormsAuthentication calss is in System.Web.Security namespace
                     string encryptedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(txtPassword.Text, "SHA1");
                     SqlParameter password = new SqlParameter("@Password", encryptedPassword);
@@ -43,6 +52,7 @@ namespace CBSSubmittal.Account
                     cmd.Parameters.Add(username);
                     cmd.Parameters.Add(password);
                     cmd.Parameters.Add(email);
+                    cmd.Parameters.Add(roleId);
 
                     con.Open();
                     int ReturnCode = (int)cmd.ExecuteScalar();

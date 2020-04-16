@@ -121,6 +121,33 @@ namespace CBSSubmittal.Account {
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorEmail;
         
         /// <summary>
+        /// ddRoleId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddRoleId;
+        
+        /// <summary>
+        /// SqlDataSourceddRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceddRole;
+        
+        /// <summary>
+        /// RequiredFieldValidatorRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorRole;
+        
+        /// <summary>
         /// ValidationSummary1 control.
         /// </summary>
         /// <remarks>

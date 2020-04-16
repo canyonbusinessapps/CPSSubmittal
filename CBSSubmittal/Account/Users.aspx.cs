@@ -9,6 +9,14 @@ namespace CBSSubmittal.Account
 {
     public partial class Users : System.Web.UI.Page
     {
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            if (Int32.Parse(Session["RoleId"].ToString()) != 1)
+            {
+                Response.Redirect("~/Default.aspx");
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
