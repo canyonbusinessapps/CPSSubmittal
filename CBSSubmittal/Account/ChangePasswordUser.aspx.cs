@@ -60,8 +60,8 @@ namespace CBSSubmittal.Account
                 new SqlParameter()
                 {
                     ParameterName = "@UserName",
-                    Value = User.Identity.Name
-                },
+                    Value = HttpContext.Current.Session["UserName"].ToString()
+        },
                 new SqlParameter()
                 {
                     ParameterName = "@CurrentPassword",
